@@ -272,7 +272,7 @@ const COLORS = [
   { on: '#D4A8C0', off: '#F8EEF4', bg: '#F8EEF4', key: 'rose'   },
 ];
 
-const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕','🔮','🎈','💃','📖'];
+const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕'];
 
 const WEEKS = 52;
 const STEP = 14; // 11px cell + 3px gap
@@ -284,9 +284,13 @@ let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
 
 // ─── GOOGLE SHEETS API ────────────────────────────────────────────────────────
-async function apiCall(action, payload = {}) {
-  const url = APPS_SCRIPT_URL + '?action=' + action;
-  const res = await fetch(url, {
+async function apiGet(action) {
+  const res = await fetch(APPS_SCRIPT_URL + '?action=' + action);
+  return res.json();
+}
+
+async function apiPost(action, payload = {}) {
+  const res = await fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({ action, ...payload })
@@ -295,19 +299,9 @@ async function apiCall(action, payload = {}) {
 }
 
 async function loadData() {
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    // Demo mode with sample data
-    events = [
-      { id: 'e1', name: '打鼓练习', emoji: '🥁', colorKey: 'purple', records: generateDemoRecords(0.45) },
-      { id: 'e2', name: '健身计划', emoji: '💪', colorKey: 'green',  records: generateDemoRecords(0.65) },
-      { id: 'e3', name: '每日阅读', emoji: '📖', colorKey: 'pink',   records: generateDemoRecords(0.25) },
-    ];
-    renderAll();
-    return;
-  }
   setLoading(true);
   try {
-    const data = await apiCall('getAll');
+    const data = await apiGet('getAll');
     events = data.events || [];
     renderAll();
   } catch(e) {
@@ -325,12 +319,8 @@ async function doCheckin(eventId) {
   ev.records.push(today);
   renderAll(); // optimistic update
 
-  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    showToast('✓ 打卡成功（演示模式）');
-    return;
-  }
   try {
-    await apiCall('checkin', { eventId, date: today });
+    await apiPost('checkin', { eventId, date: today });
     showToast('✓ 打卡成功');
   } catch(e) {
     ev.records = ev.records.filter(d => d !== today); // rollback
@@ -343,9 +333,8 @@ async function deleteEvent(eventId) {
   if (!confirm('确认删除这个打卡事件？记录也会一并删除。')) return;
   events = events.filter(e => e.id !== eventId);
   renderAll();
-  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
   try {
-    await apiCall('deleteEvent', { eventId });
+    await apiPost('deleteEvent', { eventId });
   } catch(e) { showToast('删除失败'); }
 }
 
@@ -353,12 +342,8 @@ async function saveNewEvent(ev) {
   events.push({ ...ev, records: [] });
   closeModal();
   renderAll();
-  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    showToast('✓ 创建成功（演示模式）');
-    return;
-  }
   try {
-    await apiCall('createEvent', ev);
+    await apiPost('createEvent', ev);
     showToast('✓ 创建成功');
   } catch(e) { showToast('创建失败，请重试'); }
 }
