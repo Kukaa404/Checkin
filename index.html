@@ -284,18 +284,27 @@ let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
 
 // ─── GOOGLE SHEETS API ────────────────────────────────────────────────────────
-async function apiGet(action) {
-  const res = await fetch(APPS_SCRIPT_URL + '?action=' + action);
-  return res.json();
+function apiGet(action) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Date.now();
+    const script = document.createElement('script');
+    window[cb] = (data) => { delete window[cb]; script.remove(); resolve(data); };
+    script.onerror = () => { delete window[cb]; script.remove(); reject(new Error('network')); };
+    script.src = APPS_SCRIPT_URL + '?action=' + action + '&callback=' + cb;
+    document.head.appendChild(script);
+  });
 }
 
-async function apiPost(action, payload = {}) {
-  const res = await fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ action, ...payload })
+function apiPost(action, payload = {}) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Date.now();
+    const script = document.createElement('script');
+    window[cb] = (data) => { delete window[cb]; script.remove(); resolve(data); };
+    script.onerror = () => { delete window[cb]; script.remove(); reject(new Error('network')); };
+    const params = encodeURIComponent(JSON.stringify({ action, ...payload }));
+    script.src = APPS_SCRIPT_URL + '?callback=' + cb + '&data=' + params;
+    document.head.appendChild(script);
   });
-  return res.json();
 }
 
 async function loadData() {
