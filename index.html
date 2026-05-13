@@ -67,6 +67,7 @@
     font-size: 19px; flex-shrink: 0;
   }
 
+  .card-name-row { display: flex; align-items: center; gap: 6px; }
   .card-name { font-size: 15px; font-weight: 500; letter-spacing: -0.1px; }
   .card-stats { display: flex; gap: 12px; margin-top: 4px; }
   .stat { font-size: 11px; color: var(--text-secondary); }
@@ -87,7 +88,7 @@
   .btn-checkin svg { width: 13px; height: 13px; }
 
   /* ── Heatmap ── */
-  .hm-outer { overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; }
+  .hm-outer { overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
   .hm-grid { display: flex; gap: 3px; width: max-content; }
   .hm-col { display: flex; flex-direction: column; gap: 3px; }
   .hm-cell {
@@ -101,14 +102,14 @@
   /* ── Card actions row ── */
   .card-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .btn-delete {
-    width: 28px; height: 28px; border-radius: 50%;
+    width: 22px; height: 22px; border-radius: 50%;
     border: none; background: transparent; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     color: var(--text-muted); opacity: 0; transition: opacity 0.15s, color 0.15s;
   }
   .card:hover .btn-delete { opacity: 1; }
   .btn-delete:hover { color: #E07070; }
-  .btn-delete svg { width: 13px; height: 13px; }
+  .btn-delete svg { width: 11px; height: 11px; }
 
   /* ── Empty state ── */
   .empty {
@@ -272,7 +273,7 @@ const COLORS = [
   { on: '#D4A8C0', off: '#F8EEF4', bg: '#F8EEF4', key: 'rose'   },
 ];
 
-const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕'];
+const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕','🌈','🎈','🪁'];
 
 const WEEKS = 52;
 const STEP = 14; // 11px cell + 3px gap
@@ -384,7 +385,14 @@ function buildCard(ev) {
       <div class="card-left">
         <div class="card-icon" style="background:${color.bg}">${ev.emoji}</div>
         <div>
-          <div class="card-name">${ev.name}</div>
+          <div class="card-name-row">
+            <div class="card-name">${ev.name}</div>
+            <button class="btn-delete" onclick="deleteEvent('${ev.id}')" title="删除">
+              <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <line x1="2" y1="2" x2="11" y2="11"/><line x1="11" y1="2" x2="2" y2="11"/>
+              </svg>
+            </button>
+          </div>
           <div class="card-stats">
             <div class="stat"><b>${stats.thisMonth}</b>本月</div>
             <div class="stat"><b>${stats.thisYear}</b>今年</div>
@@ -393,11 +401,6 @@ function buildCard(ev) {
         </div>
       </div>
       <div class="card-actions">
-        <button class="btn-delete" onclick="deleteEvent('${ev.id}')" title="删除">
-          <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-            <line x1="2" y1="2" x2="11" y2="11"/><line x1="11" y1="2" x2="2" y2="11"/>
-          </svg>
-        </button>
         <button class="btn-checkin ${checkedToday ? 'done' : ''}"
           onclick="doCheckin('${ev.id}')"
           ${checkedToday ? 'disabled' : ''}>
@@ -415,7 +418,11 @@ function buildCard(ev) {
   `;
 
   // Build heatmap after inserting to DOM
-  requestAnimationFrame(() => buildHeatmap(ev, color));
+  requestAnimationFrame(() => {
+    buildHeatmap(ev, color);
+    const outer = card.querySelector('.hm-outer');
+    if (outer) requestAnimationFrame(() => { outer.scrollLeft = outer.scrollWidth; });
+  });
   return card;
 }
 
