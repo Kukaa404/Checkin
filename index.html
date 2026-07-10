@@ -381,7 +381,15 @@ function renderAll() {
     container.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点击右上角创建第一个</div>`;
     return;
   }
-  events.forEach(ev => container.appendChild(buildCard(ev)));
+  events.forEach(ev => {
+    const card = buildCard(ev);
+    container.appendChild(card);
+  });
+  // Render all heatmaps after all cards are in DOM
+  events.forEach(ev => {
+    const color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
+    renderHeatmap(ev, color);
+  });
 }
 
 function buildCard(ev) {
@@ -434,7 +442,6 @@ function buildCard(ev) {
     <div id="hm-wrap-${ev.id}"></div>
   `;
 
-  renderHeatmap(ev, color);
   return card;
 }
 
