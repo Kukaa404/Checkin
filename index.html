@@ -35,10 +35,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── Layout ── */
   .container { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
-  /* ── Header ── */
+  /* Header */
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
   .logo { font-family: 'DM Serif Display', serif; font-size: 26px; letter-spacing: -0.3px; color: var(--text-primary); }
   .btn-new {
@@ -49,36 +48,32 @@
     font-family: 'DM Sans', sans-serif;
     color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
   }
-  .btn-new:hover { border-color: var(--border-hover); color: var(--text-primary); background: var(--bg); }
+  .btn-new:hover { color: var(--text-primary); background: var(--bg); }
   .btn-new svg { width: 14px; height: 14px; }
 
-  /* ── Cards ── */
+  /* Cards */
   .cards { display: flex; flex-direction: column; gap: 14px; }
-
   .card {
     background: var(--surface);
     border-radius: var(--radius-card);
     padding: 1.25rem 1.25rem 1rem;
     box-shadow: var(--shadow);
-    transition: box-shadow 0.2s;
   }
 
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
   .card-left { display: flex; align-items: center; gap: 11px; }
-
   .card-icon {
     width: 40px; height: 40px; border-radius: 11px;
     display: flex; align-items: center; justify-content: center;
     font-size: 19px; flex-shrink: 0;
   }
-
   .card-name-row { display: flex; align-items: center; gap: 6px; }
   .card-name { font-size: 15px; font-weight: 500; letter-spacing: -0.1px; }
   .card-stats { display: flex; gap: 12px; margin-top: 4px; }
   .stat { font-size: 11px; color: var(--text-secondary); }
   .stat b { font-weight: 500; color: var(--text-primary); margin-right: 1px; font-size: 12px; }
 
-  /* ── Checkin button ── */
+  /* Checkin button */
   .btn-checkin {
     display: flex; align-items: center; gap: 5px;
     padding: 7px 14px; border-radius: var(--radius-btn);
@@ -92,20 +87,7 @@
   .btn-checkin.done { border-color: transparent; color: var(--text-muted); cursor: default; background: transparent; }
   .btn-checkin svg { width: 13px; height: 13px; }
 
-  /* ── Heatmap ── */
-  .hm-outer { overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
-  .hm-grid { display: flex; gap: 3px; width: max-content; }
-  .hm-col { display: flex; flex-direction: column; gap: 3px; }
-  .hm-cell {
-    width: 11px; height: 11px; border-radius: 2.5px;
-    cursor: pointer; transition: opacity 0.1s;
-  }
-  .hm-cell:hover { opacity: 0.75; }
-  .month-row { position: relative; height: 16px; margin-top: 5px; width: max-content; }
-  .month-label { position: absolute; font-size: 10px; color: var(--text-muted); white-space: nowrap; }
-
-  /* ── Card actions row ── */
-  .card-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  /* Delete button */
   .btn-delete {
     width: 22px; height: 22px; border-radius: 50%;
     border: none; background: transparent; cursor: pointer;
@@ -116,14 +98,67 @@
   .btn-delete:hover { color: #E07070; }
   .btn-delete svg { width: 11px; height: 11px; }
 
-  /* ── Empty state ── */
+  /* Month nav */
+  .month-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .month-nav-title {
+    font-size: 12px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.3px;
+  }
+  .month-nav-arrows { display: flex; align-items: center; gap: 2px; }
+  .btn-arrow {
+    width: 24px; height: 24px; border-radius: 6px;
+    border: none; background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); transition: all 0.15s;
+  }
+  .btn-arrow:hover { background: var(--bg); color: var(--text-primary); }
+  .btn-arrow:disabled { opacity: 0.3; cursor: default; }
+  .btn-arrow svg { width: 12px; height: 12px; }
+  .btn-today {
+    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    border: 0.5px solid var(--border-hover); background: transparent;
+    color: var(--text-muted); cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-today:hover { color: var(--text-primary); }
+
+  /* Heatmap calendar */
+  .hm-calendar { width: 100%; }
+  .hm-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 4px;
+  }
+  .hm-weekday {
+    font-size: 10px; color: var(--text-muted);
+    text-align: center; padding: 2px 0;
+  }
+  .hm-days {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .hm-day {
+    aspect-ratio: 1; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--text-muted);
+    position: relative; cursor: default;
+    transition: opacity 0.1s;
+  }
+  .hm-day.empty { background: transparent; }
+  .hm-day.inactive { background: var(--bg); color: var(--text-muted); }
+  .hm-day.active { color: white; font-weight: 500; }
+  .hm-day.today-ring { box-shadow: 0 0 0 1.5px var(--text-muted); }
+  .hm-day.future { background: transparent; color: var(--text-muted); opacity: 0.3; }
+
+  /* Empty state */
   .empty {
     text-align: center; padding: 4rem 1rem;
     color: var(--text-muted); font-size: 14px; line-height: 1.8;
   }
   .empty-icon { font-size: 32px; margin-bottom: 1rem; opacity: 0.5; }
 
-  /* ── Modal overlay ── */
+  /* Modal */
   .overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.25);
     display: flex; align-items: center; justify-content: center;
@@ -131,7 +166,6 @@
     opacity: 0; pointer-events: none; transition: opacity 0.2s;
   }
   .overlay.open { opacity: 1; pointer-events: all; }
-
   .modal {
     background: var(--surface); border-radius: var(--radius-card);
     padding: 1.75rem; width: 100%; max-width: 380px;
@@ -139,9 +173,7 @@
     transform: translateY(8px); transition: transform 0.2s;
   }
   .overlay.open .modal { transform: translateY(0); }
-
   .modal h2 { font-size: 17px; font-weight: 500; margin-bottom: 1.25rem; }
-
   .form-row { margin-bottom: 1rem; }
   .form-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; display: block; }
   .form-input {
@@ -152,10 +184,7 @@
     outline: none; transition: border-color 0.15s;
   }
   .form-input:focus { border-color: var(--text-muted); }
-
-  .emoji-grid {
-    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;
-  }
+  .emoji-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
   .emoji-btn {
     width: 36px; height: 36px; border-radius: 8px; border: 0.5px solid var(--border);
     background: var(--bg); font-size: 18px; cursor: pointer;
@@ -164,7 +193,6 @@
   }
   .emoji-btn:hover, .emoji-btn.selected { border-color: var(--border-hover); background: var(--surface); transform: scale(1.1); }
   .emoji-btn.selected { box-shadow: 0 0 0 1.5px var(--text-muted); }
-
   .color-grid { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
   .color-btn {
     width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;
@@ -172,7 +200,6 @@
   }
   .color-btn:hover { transform: scale(1.15); }
   .color-btn.selected { border-color: var(--text-secondary); }
-
   .modal-actions { display: flex; gap: 8px; margin-top: 1.5rem; }
   .btn-cancel {
     flex: 1; padding: 10px; border-radius: var(--radius-btn);
@@ -189,7 +216,7 @@
   }
   .btn-confirm:hover { opacity: 0.85; }
 
-  /* ── Toast ── */
+  /* Toast */
   .toast {
     position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
     background: #1A1A1A; color: #fff; padding: 9px 18px;
@@ -198,22 +225,13 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ── Loading ── */
+  /* Loading bar */
   .loading-bar {
     position: fixed; top: 0; left: 0; height: 2px;
     background: linear-gradient(90deg, #B8A8D8, #8EC4A4, #F0A8A8);
     width: 0; transition: width 0.3s; z-index: 300;
   }
 
-  /* ── Spinner ── */
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner {
-    width: 14px; height: 14px; border: 1.5px solid var(--border-hover);
-    border-top-color: var(--text-secondary); border-radius: 50%;
-    animation: spin 0.6s linear infinite; display: inline-block;
-  }
-
-  /* ── Mobile ── */
   @media (max-width: 480px) {
     .container { padding: 1.5rem 1rem 3rem; }
     .logo { font-size: 22px; }
@@ -236,12 +254,10 @@
       新建事件
     </button>
   </header>
-
   <div class="cards" id="cardsContainer"></div>
 </div>
 
-<!-- New event modal -->
-<div class="overlay" id="overlay" onclick="e => { if(e.target===this) closeModal(); }">
+<div class="overlay" id="overlay">
   <div class="modal" onclick="event.stopPropagation()">
     <h2>新建打卡事件</h2>
     <div class="form-row">
@@ -264,11 +280,8 @@
 </div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
-// Replace with your deployed Google Apps Script Web App URL
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzLHiJPQanEDWJRX-XS1SaQYf1Bb8Q94dan9107J_kijLsd555HFs0fsfYNpLttNNe-/exec';
 
-// ─── PALETTE ─────────────────────────────────────────────────────────────────
 const COLORS = [
   { on: '#B8A8D8', off: '#F0EEF8', bg: '#F0EEF8', key: 'purple' },
   { on: '#8EC4A4', off: '#EAF4EE', bg: '#EAF4EE', key: 'green'  },
@@ -279,20 +292,20 @@ const COLORS = [
 ];
 
 const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕','🌈','🎈','🪁'];
+const WEEKDAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-const WEEKS = 52;
-const STEP = 14; // 11px cell + 3px gap
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-// ─── STATE ────────────────────────────────────────────────────────────────────
-let events = [];       // [{id, name, emoji, colorKey, records:[dateStr,...]}]
+let events = [];
 let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
+// viewMonth[eventId] = { year, month } — which month each card is showing
+const viewMonth = {};
 
-// ─── GOOGLE SHEETS API ────────────────────────────────────────────────────────
+// ── API (JSONP) ───────────────────────────────────────────────────────────────
 function apiGet(action) {
   return new Promise((resolve, reject) => {
-    const cb = 'cb_' + Date.now();
+    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
     const script = document.createElement('script');
     window[cb] = (data) => { delete window[cb]; script.remove(); resolve(data); };
     script.onerror = () => { delete window[cb]; script.remove(); reject(new Error('network')); };
@@ -303,7 +316,7 @@ function apiGet(action) {
 
 function apiPost(action, payload = {}) {
   return new Promise((resolve, reject) => {
-    const cb = 'cb_' + Date.now();
+    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
     const script = document.createElement('script');
     window[cb] = (data) => { delete window[cb]; script.remove(); resolve(data); };
     script.onerror = () => { delete window[cb]; script.remove(); reject(new Error('network')); };
@@ -313,6 +326,7 @@ function apiPost(action, payload = {}) {
   });
 }
 
+// ── Data ─────────────────────────────────────────────────────────────────────
 async function loadData() {
   setLoading(true);
   try {
@@ -330,15 +344,13 @@ async function doCheckin(eventId) {
   const today = todayStr();
   const ev = events.find(e => e.id === eventId);
   if (!ev || ev.records.includes(today)) return;
-
   ev.records.push(today);
-  renderAll(); // optimistic update
-
+  renderAll();
   try {
     await apiPost('checkin', { eventId, date: today });
     showToast('✓ 打卡成功');
   } catch(e) {
-    ev.records = ev.records.filter(d => d !== today); // rollback
+    ev.records = ev.records.filter(d => d !== today);
     renderAll();
     showToast('打卡失败，请重试');
   }
@@ -348,9 +360,7 @@ async function deleteEvent(eventId) {
   if (!confirm('确认删除这个打卡事件？记录也会一并删除。')) return;
   events = events.filter(e => e.id !== eventId);
   renderAll();
-  try {
-    await apiPost('deleteEvent', { eventId });
-  } catch(e) { showToast('删除失败'); }
+  try { await apiPost('deleteEvent', { eventId }); } catch(e) { showToast('删除失败'); }
 }
 
 async function saveNewEvent(ev) {
@@ -363,15 +373,12 @@ async function saveNewEvent(ev) {
   } catch(e) { showToast('创建失败，请重试'); }
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────────
 function renderAll() {
   const container = document.getElementById('cardsContainer');
   container.innerHTML = '';
   if (events.length === 0) {
-    container.innerHTML = `<div class="empty">
-      <div class="empty-icon">🌱</div>
-      还没有打卡事件<br>点击右上角创建第一个
-    </div>`;
+    container.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点击右上角创建第一个</div>`;
     return;
   }
   events.forEach(ev => container.appendChild(buildCard(ev)));
@@ -382,9 +389,17 @@ function buildCard(ev) {
   const today = todayStr();
   const checkedToday = ev.records.includes(today);
   const stats = calcStats(ev.records);
+  const now = new Date();
+
+  // Init view month for this card
+  if (!viewMonth[ev.id]) {
+    viewMonth[ev.id] = { year: now.getFullYear(), month: now.getMonth() };
+  }
 
   const card = document.createElement('div');
   card.className = 'card';
+  card.id = 'card-' + ev.id;
+
   card.innerHTML = `
     <div class="card-top">
       <div class="card-left">
@@ -405,7 +420,7 @@ function buildCard(ev) {
           </div>
         </div>
       </div>
-      <div class="card-actions">
+      <div style="flex-shrink:0">
         <button class="btn-checkin ${checkedToday ? 'done' : ''}"
           onclick="doCheckin('${ev.id}')"
           ${checkedToday ? 'disabled' : ''}>
@@ -416,78 +431,99 @@ function buildCard(ev) {
         </button>
       </div>
     </div>
-    <div class="hm-outer">
-      <div class="hm-grid" id="hg-${ev.id}"></div>
-      <div class="month-row" id="mr-${ev.id}"></div>
-    </div>
+    <div id="hm-wrap-${ev.id}"></div>
   `;
 
-  // Build heatmap after inserting to DOM
-  requestAnimationFrame(() => {
-    buildHeatmap(ev, color);
-    const outer = card.querySelector('.hm-outer');
-    if (outer) requestAnimationFrame(() => { outer.scrollLeft = outer.scrollWidth; });
-  });
+  renderHeatmap(ev, color);
   return card;
 }
 
-function buildHeatmap(ev, color) {
-  const grid = document.getElementById('hg-' + ev.id);
-  const mlRow = document.getElementById('mr-' + ev.id);
-  if (!grid || !mlRow) return;
+function renderHeatmap(ev, color) {
+  const wrap = document.getElementById('hm-wrap-' + ev.id);
+  if (!wrap) return;
+  if (!color) color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
 
+  const { year, month } = viewMonth[ev.id];
+  const now = new Date();
+  const isCurrentMonth = year === now.getFullYear() && month === now.getMonth();
+
+  // Can't go before the earliest record or past today's month
+  const hasNext = !(isCurrentMonth);
+  // Find earliest possible month from records
+  const allDates = ev.records.map(r => r).sort();
+  const firstRecord = allDates[0];
+
+  const monthLabel = MONTH_NAMES[month] + ' ' + year;
+
+  // Build calendar grid
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const todayFull = todayStr();
   const recordSet = new Set(ev.records);
-  const today = new Date();
 
-  // Start from 52 weeks ago (Monday of that week)
-  const startDate = new Date(today);
-  startDate.setDate(startDate.getDate() - (WEEKS * 7) + 1);
-
-  let lastLabelX = -999;
-
-  for (let w = 0; w < WEEKS; w++) {
-    const col = document.createElement('div');
-    col.className = 'hm-col';
-
-    for (let d = 0; d < 7; d++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + w * 7 + d);
-      if (date > today) {
-        // future cell — invisible placeholder
-        const ph = document.createElement('div');
-        ph.className = 'hm-cell';
-        ph.style.background = 'transparent';
-        col.appendChild(ph);
-        continue;
-      }
-      const ds = dateStr(date);
-      const cell = document.createElement('div');
-      cell.className = 'hm-cell';
-      cell.style.background = recordSet.has(ds) ? color.on : color.off;
-      cell.title = ds;
-      col.appendChild(cell);
-    }
-
-    grid.appendChild(col);
-
-    // Month label
-    const weekStart = new Date(startDate);
-    weekStart.setDate(startDate.getDate() + w * 7);
-    if (weekStart.getDate() <= 7) {
-      const x = w * STEP;
-      if (x - lastLabelX >= 26) {
-        const lbl = document.createElement('span');
-        lbl.className = 'month-label';
-        lbl.textContent = MONTH_NAMES[weekStart.getMonth()];
-        lbl.style.left = x + 'px';
-        mlRow.appendChild(lbl);
-        lastLabelX = x;
-      }
-    }
+  let dayCells = '';
+  // empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    dayCells += `<div class="hm-day empty"></div>`;
   }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const ds = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const isFuture = ds > todayFull;
+    const isChecked = recordSet.has(ds);
+    const isToday = ds === todayFull;
+    let cls = 'hm-day';
+    if (isFuture) cls += ' future';
+    else if (isChecked) cls += ' active';
+    else cls += ' inactive';
+    if (isToday) cls += ' today-ring';
+    const style = isChecked ? `background:${color.on};` : '';
+    dayCells += `<div class="${cls}" style="${style}" title="${ds}">${d}</div>`;
+  }
+
+  wrap.innerHTML = `
+    <div class="month-nav">
+      <div class="month-nav-title">${monthLabel}</div>
+      <div class="month-nav-arrows">
+        ${!isCurrentMonth ? `<button class="btn-today" onclick="goToday('${ev.id}')">今天</button>` : ''}
+        <button class="btn-arrow" onclick="changeMonth('${ev.id}',-1)">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
+        </button>
+        <button class="btn-arrow" onclick="changeMonth('${ev.id}',1)" ${!hasNext ? 'disabled' : ''}>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,2 8,6 4,10"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="hm-calendar">
+      <div class="hm-weekdays">
+        ${WEEKDAYS.map(w => `<div class="hm-weekday">${w}</div>`).join('')}
+      </div>
+      <div class="hm-days">${dayCells}</div>
+    </div>
+  `;
 }
 
-// ─── MODAL ────────────────────────────────────────────────────────────────────
+function changeMonth(eventId, delta) {
+  const vm = viewMonth[eventId];
+  let m = vm.month + delta;
+  let y = vm.year;
+  if (m > 11) { m = 0; y++; }
+  if (m < 0)  { m = 11; y--; }
+  // Don't go into future months
+  const now = new Date();
+  if (y > now.getFullYear() || (y === now.getFullYear() && m > now.getMonth())) return;
+  viewMonth[eventId] = { year: y, month: m };
+  const ev = events.find(e => e.id === eventId);
+  if (ev) renderHeatmap(ev);
+}
+
+function goToday(eventId) {
+  const now = new Date();
+  viewMonth[eventId] = { year: now.getFullYear(), month: now.getMonth() };
+  const ev = events.find(e => e.id === eventId);
+  if (ev) renderHeatmap(ev);
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
 function openModal() {
   selectedEmoji = EMOJIS[0];
   selectedColor = COLORS[0].key;
@@ -536,15 +572,12 @@ function buildColorGrid() {
 
 function submitNewEvent() {
   const name = document.getElementById('inputName').value.trim();
-  if (!name) {
-    document.getElementById('inputName').focus();
-    return;
-  }
+  if (!name) { document.getElementById('inputName').focus(); return; }
   const id = 'e' + Date.now();
   saveNewEvent({ id, name, emoji: selectedEmoji, colorKey: selectedColor });
 }
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function todayStr() { return dateStr(new Date()); }
 function dateStr(d) {
   const y = d.getFullYear();
@@ -564,17 +597,6 @@ function calcStats(records) {
   };
 }
 
-function generateDemoRecords(density) {
-  const records = [];
-  const today = new Date();
-  for (let i = 0; i < 365; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    if (Math.random() < density) records.push(dateStr(d));
-  }
-  return records;
-}
-
 function setLoading(on) {
   document.getElementById('loadingBar').style.width = on ? '70%' : '100%';
   if (!on) setTimeout(() => { document.getElementById('loadingBar').style.width = '0'; }, 300);
@@ -587,79 +609,11 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// close modal on overlay click
 document.getElementById('overlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
 loadData();
 </script>
-
-<!-- ═══════════════════════════════════════════════════════════════════
-  GOOGLE APPS SCRIPT (paste into script.google.com and deploy as web app)
-  ═══════════════════════════════════════════════════════════════════════
-
-function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let result = {};
-
-  if (data.action === 'getAll') {
-    const evSheet = ss.getSheetByName('events') || ss.insertSheet('events');
-    const recSheet = ss.getSheetByName('records') || ss.insertSheet('records');
-    const evRows = evSheet.getDataRange().getValues();
-    const recRows = recSheet.getDataRange().getValues();
-
-    const recordMap = {};
-    recRows.slice(1).forEach(r => {
-      if (!recordMap[r[0]]) recordMap[r[0]] = [];
-      recordMap[r[0]].push(r[1]);
-    });
-
-    const events = evRows.slice(1).map(r => ({
-      id: r[0], name: r[1], emoji: r[2], colorKey: r[3],
-      records: recordMap[r[0]] || []
-    }));
-    result = { events };
-  }
-
-  if (data.action === 'checkin') {
-    const sheet = ss.getSheetByName('records') || ss.insertSheet('records');
-    if (sheet.getLastRow() === 0) sheet.appendRow(['eventId','date']);
-    sheet.appendRow([data.eventId, data.date]);
-    result = { ok: true };
-  }
-
-  if (data.action === 'createEvent') {
-    const sheet = ss.getSheetByName('events') || ss.insertSheet('events');
-    if (sheet.getLastRow() === 0) sheet.appendRow(['id','name','emoji','colorKey']);
-    sheet.appendRow([data.id, data.name, data.emoji, data.colorKey]);
-    result = { ok: true };
-  }
-
-  if (data.action === 'deleteEvent') {
-    const evSheet = ss.getSheetByName('events');
-    const recSheet = ss.getSheetByName('records');
-    if (evSheet) {
-      const rows = evSheet.getDataRange().getValues();
-      for (let i = rows.length - 1; i >= 1; i--) {
-        if (rows[i][0] === data.eventId) evSheet.deleteRow(i + 1);
-      }
-    }
-    if (recSheet) {
-      const rows = recSheet.getDataRange().getValues();
-      for (let i = rows.length - 1; i >= 1; i--) {
-        if (rows[i][0] === data.eventId) recSheet.deleteRow(i + 1);
-      }
-    }
-    result = { ok: true };
-  }
-
-  return ContentService.createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-═══════════════════════════════════════════════════════════════════════ -->
 </body>
 </html>
