@@ -12,194 +12,202 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #F8F6F2;
-    --surface: #FFFFFF;
-    --border: rgba(0,0,0,0.07);
-    --border-hover: rgba(0,0,0,0.13);
-    --text-primary: #1A1A1A;
-    --text-secondary: #888880;
-    --text-muted: #BBBBB5;
-    --radius-card: 18px;
-    --radius-btn: 100px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 0 0 0.5px rgba(0,0,0,0.06);
-  }
+:root {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --border: rgba(0,0,0,0.06);
+  --border-md: rgba(0,0,0,0.10);
+  --text-1: #1A1A1A;
+  --text-2: #8A8880;
+  --text-3: #C0BDB8;
+  --r-card: 20px;
+  --r-btn: 100px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.04), 0 0 0 0.5px rgba(0,0,0,0.05);
+}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .container { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+.container { max-width: 660px; margin: 0 auto; padding: 2.25rem 1.25rem 5rem; }
 
-  /* Header */
-  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-  .logo { font-family: 'DM Serif Display', serif; font-size: 26px; letter-spacing: -0.3px; color: var(--text-primary); }
-  .btn-new {
-    display: flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: var(--radius-btn);
-    border: 0.5px solid var(--border-hover);
-    background: var(--surface); font-size: 13px; font-weight: 400;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
-  }
-  .btn-new:hover { color: var(--text-primary); background: var(--bg); }
-  .btn-new svg { width: 14px; height: 14px; }
+/* Header */
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.25rem; }
+.logo { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; }
+.btn-new {
+  display: flex; align-items: center; gap: 5px;
+  padding: 8px 18px; border-radius: var(--r-btn);
+  border: 0.5px solid var(--border-md);
+  background: var(--surface); font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-2); cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.1px;
+}
+.btn-new:hover { color: var(--text-1); background: var(--bg); }
+.btn-new svg { width: 13px; height: 13px; }
 
-  /* Cards */
-  .cards { display: flex; flex-direction: column; gap: 14px; }
-  .card {
-    background: var(--surface);
-    border-radius: var(--radius-card);
-    padding: 1.25rem 1.25rem 1rem;
-    box-shadow: var(--shadow);
-  }
+/* Cards */
+.cards { display: flex; flex-direction: column; gap: 12px; }
 
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-  .card-left { display: flex; align-items: center; gap: 11px; }
-  .card-icon {
-    width: 40px; height: 40px; border-radius: 11px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 19px; flex-shrink: 0;
-  }
-  .card-name-row { display: flex; align-items: center; gap: 6px; }
-  .card-name { font-size: 15px; font-weight: 500; letter-spacing: -0.1px; }
-  .card-stats { display: flex; gap: 12px; margin-top: 4px; }
-  .stat { font-size: 11px; color: var(--text-secondary); }
-  .stat b { font-weight: 500; color: var(--text-primary); margin-right: 1px; font-size: 12px; }
+.card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  padding: 1.25rem 1.25rem 1.1rem;
+  box-shadow: var(--shadow);
+}
 
-  /* Checkin button */
-  .btn-checkin {
-    display: flex; align-items: center; gap: 5px;
-    padding: 7px 14px; border-radius: var(--radius-btn);
-    border: 0.5px solid var(--border-hover);
-    background: var(--surface); font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text-secondary); cursor: pointer;
-    transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
-  }
-  .btn-checkin:hover:not(:disabled) { color: var(--text-primary); border-color: var(--text-muted); }
-  .btn-checkin.done { border-color: transparent; color: var(--text-muted); cursor: default; background: transparent; }
-  .btn-checkin svg { width: 13px; height: 13px; }
+/* Card top row */
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.1rem; }
+.card-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.card-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.card-meta { min-width: 0; }
+.card-name-row { display: flex; align-items: center; gap: 5px; }
+.card-name { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+.btn-delete {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: none; background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); opacity: 0; transition: opacity 0.15s, color 0.15s; flex-shrink: 0;
+}
+.card:hover .btn-delete { opacity: 1; }
+.btn-delete:hover { color: #D07070; }
+.btn-delete svg { width: 9px; height: 9px; }
 
-  /* Delete button */
-  .btn-delete {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: none; background: transparent; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); opacity: 0; transition: opacity 0.15s, color 0.15s;
-  }
-  .card:hover .btn-delete { opacity: 1; }
-  .btn-delete:hover { color: #E07070; }
-  .btn-delete svg { width: 11px; height: 11px; }
+.card-stats { display: flex; gap: 10px; margin-top: 3px; }
+.stat { font-size: 11px; color: var(--text-2); }
+.stat b { font-weight: 500; color: var(--text-1); font-size: 12px; margin-right: 1px; }
 
-  /* Heatmap */
-  .hm-wrap-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .hm-container { display: flex; gap: 3px; width: max-content; padding-bottom: 2px; }
-  .hm-col { display: flex; flex-direction: column; gap: 3px; }
-  .hm-cell {
-    width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0;
-  }
-  .hm-month-labels { position: relative; height: 14px; margin-bottom: 3px; }
-  .hm-month-label { position: absolute; font-size: 10px; color: var(--text-muted); white-space: nowrap; }
-  .hm-row-labels { display: flex; flex-direction: column; gap: 3px; margin-right: 4px; padding-top: 17px; }
-  .hm-row-label { height: 11px; font-size: 9px; color: var(--text-muted); display: flex; align-items: center; white-space: nowrap; }
+/* Checkin button */
+.btn-checkin {
+  display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+  padding: 7px 15px; border-radius: var(--r-btn);
+  border: 0.5px solid var(--border-md);
+  background: var(--surface); font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-2); cursor: pointer; transition: all 0.15s;
+}
+.btn-checkin:hover:not(:disabled) { color: var(--text-1); border-color: rgba(0,0,0,0.18); }
+.btn-checkin.done { border-color: transparent; color: var(--text-3); cursor: default; background: transparent; }
+.btn-checkin svg { width: 13px; height: 13px; }
 
-  /* Empty state */
-  .empty {
-    text-align: center; padding: 4rem 1rem;
-    color: var(--text-muted); font-size: 14px; line-height: 1.8;
-  }
-  .empty-icon { font-size: 32px; margin-bottom: 1rem; opacity: 0.5; }
+/* Heatmap */
+.hm-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.hm-inner { display: flex; align-items: flex-start; gap: 4px; width: max-content; }
+.hm-ylabels { display: flex; flex-direction: column; padding-top: 18px; gap: 2px; }
+.hm-ylabel { height: 11px; font-size: 9px; color: var(--text-3); line-height: 11px; width: 16px; }
+.hm-grid-wrap { display: flex; flex-direction: column; }
+.hm-month-row { display: flex; height: 16px; position: relative; margin-bottom: 2px; }
+.hm-month-lbl { position: absolute; font-size: 10px; color: var(--text-2); white-space: nowrap; }
+.hm-grid { display: flex; gap: 2px; }
+.hm-col { display: flex; flex-direction: column; gap: 2px; }
+.hm-cell {
+  width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0;
+  transition: opacity 0.1s;
+}
+.hm-cell:hover { opacity: 0.7; }
 
-  /* Modal */
-  .overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.25);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 100; padding: 1rem;
-    opacity: 0; pointer-events: none; transition: opacity 0.2s;
-  }
-  .overlay.open { opacity: 1; pointer-events: all; }
-  .modal {
-    background: var(--surface); border-radius: var(--radius-card);
-    padding: 1.75rem; width: 100%; max-width: 380px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    transform: translateY(8px); transition: transform 0.2s;
-  }
-  .overlay.open .modal { transform: translateY(0); }
-  .modal h2 { font-size: 17px; font-weight: 500; margin-bottom: 1.25rem; }
-  .form-row { margin-bottom: 1rem; }
-  .form-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; display: block; }
-  .form-input {
-    width: 100%; padding: 9px 12px; border-radius: 10px;
-    border: 0.5px solid var(--border-hover);
-    font-size: 14px; font-family: 'DM Sans', sans-serif;
-    background: var(--bg); color: var(--text-primary);
-    outline: none; transition: border-color 0.15s;
-  }
-  .form-input:focus { border-color: var(--text-muted); }
-  .emoji-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-  .emoji-btn {
-    width: 36px; height: 36px; border-radius: 8px; border: 0.5px solid var(--border);
-    background: var(--bg); font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.1s;
-  }
-  .emoji-btn:hover, .emoji-btn.selected { border-color: var(--border-hover); background: var(--surface); transform: scale(1.1); }
-  .emoji-btn.selected { box-shadow: 0 0 0 1.5px var(--text-muted); }
-  .color-grid { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-  .color-btn {
-    width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;
-    cursor: pointer; transition: transform 0.1s; flex-shrink: 0;
-  }
-  .color-btn:hover { transform: scale(1.15); }
-  .color-btn.selected { border-color: var(--text-secondary); }
-  .modal-actions { display: flex; gap: 8px; margin-top: 1.5rem; }
-  .btn-cancel {
-    flex: 1; padding: 10px; border-radius: var(--radius-btn);
-    border: 0.5px solid var(--border-hover);
-    background: transparent; font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text-secondary); cursor: pointer;
-  }
-  .btn-confirm {
-    flex: 2; padding: 10px; border-radius: var(--radius-btn);
-    border: none; background: #1A1A1A; color: #fff;
-    font-size: 14px; font-family: 'DM Sans', sans-serif;
-    cursor: pointer; transition: opacity 0.15s;
-  }
-  .btn-confirm:hover { opacity: 0.85; }
+/* Empty */
+.empty {
+  text-align: center; padding: 4rem 1rem;
+  color: var(--text-3); font-size: 14px; line-height: 2;
+}
+.empty-icon { font-size: 28px; margin-bottom: 0.75rem; opacity: 0.6; }
 
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
-    background: #1A1A1A; color: #fff; padding: 9px 18px;
-    border-radius: var(--radius-btn); font-size: 13px;
-    opacity: 0; transition: all 0.25s; pointer-events: none; white-space: nowrap; z-index: 200;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Modal */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 1rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.18s;
+  backdrop-filter: blur(2px);
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface); border-radius: var(--r-card);
+  padding: 1.75rem; width: 100%; max-width: 360px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  transform: translateY(10px) scale(0.98); transition: transform 0.2s;
+}
+.overlay.open .modal { transform: translateY(0) scale(1); }
+.modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 1.25rem; letter-spacing: -0.2px; }
+.form-row { margin-bottom: 1rem; }
+.form-label { font-size: 11px; color: var(--text-2); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input {
+  width: 100%; padding: 9px 12px; border-radius: 10px;
+  border: 0.5px solid var(--border-md);
+  font-size: 14px; font-family: 'DM Sans', sans-serif;
+  background: var(--bg); color: var(--text-1);
+  outline: none; transition: border-color 0.15s;
+}
+.form-input:focus { border-color: rgba(0,0,0,0.25); }
+.emoji-grid { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.emoji-btn {
+  width: 34px; height: 34px; border-radius: 8px;
+  border: 0.5px solid var(--border);
+  background: var(--bg); font-size: 17px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.1s;
+}
+.emoji-btn:hover { background: var(--surface); transform: scale(1.08); }
+.emoji-btn.selected { box-shadow: 0 0 0 1.5px var(--text-2); background: var(--surface); }
+.color-grid { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.color-btn {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2.5px solid transparent; cursor: pointer; transition: transform 0.1s;
+}
+.color-btn:hover { transform: scale(1.15); }
+.color-btn.selected { border-color: var(--text-2); }
+.modal-actions { display: flex; gap: 8px; margin-top: 1.5rem; }
+.btn-cancel {
+  flex: 1; padding: 10px; border-radius: var(--r-btn);
+  border: 0.5px solid var(--border-md);
+  background: transparent; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; color: var(--text-2); cursor: pointer;
+}
+.btn-confirm {
+  flex: 2; padding: 10px; border-radius: var(--r-btn);
+  border: none; background: var(--text-1); color: #fff;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.btn-confirm:hover { opacity: 0.8; }
 
-  /* Loading bar */
-  .loading-bar {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, #B8A8D8, #8EC4A4, #F0A8A8);
-    width: 0; transition: width 0.3s; z-index: 300;
-  }
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--text-1); color: #fff;
+  padding: 8px 18px; border-radius: var(--r-btn);
+  font-size: 13px; opacity: 0; transition: all 0.22s;
+  pointer-events: none; white-space: nowrap; z-index: 200;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  @media (max-width: 480px) {
-    .container { padding: 1.5rem 1rem 3rem; }
-    .logo { font-size: 22px; }
-    .card { padding: 1rem 1rem 0.85rem; }
-  }
+/* Loading */
+.loading-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: linear-gradient(90deg, #B8A8D8, #8EC4A4, #F0A8A8);
+  width: 0; transition: width 0.3s; z-index: 300;
+}
+
+@media (max-width: 480px) {
+  .container { padding: 1.5rem 1rem 4rem; }
+  .logo { font-size: 24px; }
+  .card { padding: 1rem 1rem 0.9rem; }
+}
 </style>
 </head>
 <body>
-
 <div class="loading-bar" id="loadingBar"></div>
 <div class="toast" id="toast"></div>
 
@@ -207,8 +215,8 @@
   <header class="header">
     <div class="logo">Take it easy</div>
     <button class="btn-new" onclick="openModal()">
-      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/>
+      <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="6.5" y1="1.5" x2="6.5" y2="11.5"/><line x1="1.5" y1="6.5" x2="11.5" y2="6.5"/>
       </svg>
       新建事件
     </button>
@@ -220,15 +228,15 @@
   <div class="modal" onclick="event.stopPropagation()">
     <h2>新建打卡事件</h2>
     <div class="form-row">
-      <label class="form-label">事件名称</label>
-      <input class="form-input" id="inputName" placeholder="例如：打鼓练习" maxlength="20">
+      <label class="form-label">名称</label>
+      <input class="form-input" id="inputName" placeholder="例如：架子鼓练习" maxlength="20">
     </div>
     <div class="form-row">
-      <label class="form-label">选个图标</label>
+      <label class="form-label">图标</label>
       <div class="emoji-grid" id="emojiGrid"></div>
     </div>
     <div class="form-row">
-      <label class="form-label">主题色</label>
+      <label class="form-label">颜色</label>
       <div class="color-grid" id="colorGrid"></div>
     </div>
     <div class="modal-actions">
@@ -242,62 +250,71 @@
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzLHiJPQanEDWJRX-XS1SaQYf1Bb8Q94dan9107J_kijLsd555HFs0fsfYNpLttNNe-/exec';
 
 const COLORS = [
-  { on: '#B8A8D8', off: '#F0EEF8', bg: '#F0EEF8', key: 'purple' },
-  { on: '#8EC4A4', off: '#EAF4EE', bg: '#EAF4EE', key: 'green'  },
-  { on: '#F0A8A8', off: '#FDF0F0', bg: '#FDF0F0', key: 'pink'   },
-  { on: '#A8C4D8', off: '#EEF4F8', bg: '#EEF4F8', key: 'blue'   },
-  { on: '#C4C8A0', off: '#F2F4E8', bg: '#F2F4E8', key: 'sage'   },
-  { on: '#D4A8C0', off: '#F8EEF4', bg: '#F8EEF4', key: 'rose'   },
+  { on: '#B8A8D8', off: '#EEEAF6', bg: '#F2EFF9', key: 'purple' },
+  { on: '#8EC4A4', off: '#E2F0E8', bg: '#EAF4EE', key: 'green'  },
+  { on: '#F0A8A8', off: '#FAEAEA', bg: '#FDF2F2', key: 'pink'   },
+  { on: '#A8C4D8', off: '#E2EEF5', bg: '#EEF4F8', key: 'blue'   },
+  { on: '#B8C89A', off: '#E8EED8', bg: '#F0F4E4', key: 'sage'   },
+  { on: '#D4A8C0', off: '#F0E2EC', bg: '#F8EEF4', bg: '#F8EEF4', key: 'rose' },
 ];
 
 const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕','🌈','🎈','🪁'];
-const WEEKDAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WEEKS = 26;
+const CELL = 13; // 11px + 2px gap
 
 let events = [];
 let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
-// viewMonth[eventId] = { year, month } — which month each card is showing
-const viewMonth = {};
 
 // ── API (JSONP) ───────────────────────────────────────────────────────────────
-function apiGet(action) {
+function jsonp(url) {
   return new Promise((resolve, reject) => {
-    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const script = document.createElement('script');
-    window[cb] = (data) => { delete window[cb]; script.remove(); resolve(data); };
-    script.onerror = () => { delete window[cb]; script.remove(); reject(new Error('network')); };
-    script.src = APPS_SCRIPT_URL + '?action=' + action + '&callback=' + cb;
-    document.head.appendChild(script);
+    const cb = '_cb' + Date.now() + Math.random().toString(36).slice(2);
+    const s = document.createElement('script');
+    window[cb] = d => { delete window[cb]; s.remove(); resolve(d); };
+    s.onerror = () => { delete window[cb]; s.remove(); reject(new Error('network')); };
+    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+    document.head.appendChild(s);
   });
 }
 
-function apiPost(action, payload = {}) {
-  return new Promise((resolve, reject) => {
-    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const script = document.createElement('script');
-    window[cb] = (data) => { delete window[cb]; script.remove(); resolve(data); };
-    script.onerror = () => { delete window[cb]; script.remove(); reject(new Error('network')); };
-    const params = encodeURIComponent(JSON.stringify({ action, ...payload }));
-    script.src = APPS_SCRIPT_URL + '?callback=' + cb + '&data=' + params;
-    document.head.appendChild(script);
-  });
-}
-
-// ── Data ─────────────────────────────────────────────────────────────────────
 async function loadData() {
   setLoading(true);
   try {
-    const data = await apiGet('getAll');
-    events = data.events || [];
+    const data = await jsonp(APPS_SCRIPT_URL + '?action=getAll');
+    events = (data.events || []).map(ev => ({
+      ...ev,
+      records: (ev.records || []).map(r => normalizeDate(r))
+    }));
     renderAll();
   } catch(e) {
     showToast('加载失败，请检查网络');
+    console.error(e);
   } finally {
     setLoading(false);
   }
 }
+
+// Normalize any date format to YYYY-MM-DD
+function normalizeDate(raw) {
+  if (!raw) return '';
+  const s = String(raw).trim();
+  // Already YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  // Try parsing
+  const d = new Date(s);
+  if (!isNaN(d)) return fmtDate(d);
+  return s;
+}
+
+function fmtDate(d) {
+  return d.getFullYear() + '-' +
+    String(d.getMonth()+1).padStart(2,'0') + '-' +
+    String(d.getDate()).padStart(2,'0');
+}
+
+function todayStr() { return fmtDate(new Date()); }
 
 async function doCheckin(eventId) {
   const today = todayStr();
@@ -306,7 +323,7 @@ async function doCheckin(eventId) {
   ev.records.push(today);
   renderAll();
   try {
-    await apiPost('checkin', { eventId, date: today });
+    await jsonp(APPS_SCRIPT_URL + '?action=checkin&eventId=' + encodeURIComponent(eventId) + '&date=' + today);
     showToast('✓ 打卡成功');
   } catch(e) {
     ev.records = ev.records.filter(d => d !== today);
@@ -316,10 +333,11 @@ async function doCheckin(eventId) {
 }
 
 async function deleteEvent(eventId) {
-  if (!confirm('确认删除这个打卡事件？记录也会一并删除。')) return;
+  if (!confirm('确认删除这个打卡事件？')) return;
   events = events.filter(e => e.id !== eventId);
   renderAll();
-  try { await apiPost('deleteEvent', { eventId }); } catch(e) { showToast('删除失败'); }
+  try { await jsonp(APPS_SCRIPT_URL + '?action=deleteEvent&eventId=' + encodeURIComponent(eventId)); }
+  catch(e) { showToast('删除失败'); }
 }
 
 async function saveNewEvent(ev) {
@@ -327,270 +345,202 @@ async function saveNewEvent(ev) {
   closeModal();
   renderAll();
   try {
-    await apiPost('createEvent', ev);
+    const url = APPS_SCRIPT_URL + '?action=createEvent' +
+      '&id=' + encodeURIComponent(ev.id) +
+      '&name=' + encodeURIComponent(ev.name) +
+      '&emoji=' + encodeURIComponent(ev.emoji) +
+      '&colorKey=' + encodeURIComponent(ev.colorKey);
+    await jsonp(url);
     showToast('✓ 创建成功');
   } catch(e) { showToast('创建失败，请重试'); }
 }
 
 // ── Render ────────────────────────────────────────────────────────────────────
 function renderAll() {
-  const container = document.getElementById('cardsContainer');
-  container.innerHTML = '';
-  if (events.length === 0) {
-    container.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点击右上角创建第一个</div>`;
+  const c = document.getElementById('cardsContainer');
+  c.innerHTML = '';
+  if (!events.length) {
+    c.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点右上角创建第一个</div>`;
     return;
   }
-  events.forEach(ev => {
-    const card = buildCard(ev);
-    container.appendChild(card);
-  });
-  // Render all heatmaps after all cards are in DOM
-  events.forEach(ev => {
-    const color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
-    renderHeatmap(ev, color);
-  });
+  events.forEach(ev => c.appendChild(buildCard(ev)));
+  events.forEach(ev => renderHeatmap(ev));
 }
 
 function buildCard(ev) {
   const color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
   const today = todayStr();
-  const checkedToday = ev.records.includes(today);
+  const done = ev.records.includes(today);
   const stats = calcStats(ev.records);
-  const now = new Date();
-
-  // Init view month for this card
-  if (!viewMonth[ev.id]) {
-    viewMonth[ev.id] = { year: now.getFullYear(), month: now.getMonth() };
-  }
 
   const card = document.createElement('div');
   card.className = 'card';
   card.id = 'card-' + ev.id;
-
   card.innerHTML = `
     <div class="card-top">
       <div class="card-left">
         <div class="card-icon" style="background:${color.bg}">${ev.emoji}</div>
-        <div>
+        <div class="card-meta">
           <div class="card-name-row">
             <div class="card-name">${ev.name}</div>
-            <button class="btn-delete" onclick="deleteEvent('${ev.id}')" title="删除">
-              <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <line x1="2" y1="2" x2="11" y2="11"/><line x1="11" y1="2" x2="2" y2="11"/>
+            <button class="btn-delete" onclick="deleteEvent('${ev.id}')">
+              <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <line x1="1" y1="1" x2="8" y2="8"/><line x1="8" y1="1" x2="1" y2="8"/>
               </svg>
             </button>
           </div>
           <div class="card-stats">
-            <div class="stat"><b>${stats.thisMonth}</b>本月</div>
-            <div class="stat"><b>${stats.thisYear}</b>今年</div>
-            <div class="stat"><b>${stats.total}</b>总计</div>
+            <span class="stat"><b>${stats.month}</b>本月</span>
+            <span class="stat"><b>${stats.year}</b>今年</span>
+            <span class="stat"><b>${stats.total}</b>总计</span>
           </div>
         </div>
       </div>
-      <div style="flex-shrink:0">
-        <button class="btn-checkin ${checkedToday ? 'done' : ''}"
-          onclick="doCheckin('${ev.id}')"
-          ${checkedToday ? 'disabled' : ''}>
-          ${checkedToday
-            ? `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,7 5,10 11,3"/></svg> 今日已打卡`
-            : `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><polyline points="4,6.5 6,8.5 9.5,4.5"/></svg> 打卡`
-          }
-        </button>
-      </div>
+      <button class="btn-checkin ${done ? 'done' : ''}" onclick="doCheckin('${ev.id}')" ${done ? 'disabled' : ''}>
+        ${done
+          ? `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,7 5,10 11,3"/></svg>今日已打卡`
+          : `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><polyline points="4,6.5 6,8.5 9.5,4.5"/></svg>打卡`
+        }
+      </button>
     </div>
-    <div id="hm-wrap-${ev.id}"></div>
+    <div id="hm-${ev.id}"></div>
   `;
-
   return card;
 }
 
-function renderHeatmap(ev, color) {
-  const wrap = document.getElementById('hm-wrap-' + ev.id);
+function renderHeatmap(ev) {
+  const wrap = document.getElementById('hm-' + ev.id);
   if (!wrap) return;
-  if (!color) color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
-
-  const WEEKS = 26; // ~6 months visible
-  const today = new Date();
-  const todayFull = todayStr();
+  const color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
   const recordSet = new Set(ev.records);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const todayFull = todayStr();
 
-  // Start from WEEKS*7 days ago, aligned to Sunday
-  const startDate = new Date(today);
-  startDate.setDate(today.getDate() - (WEEKS * 7) + 1);
-  // align to Sunday
-  startDate.setDate(startDate.getDate() - startDate.getDay());
+  // Start from WEEKS*7 days ago, go back to the nearest Sunday
+  const start = new Date(today);
+  start.setDate(today.getDate() - WEEKS * 7 + 1);
+  // Align to Sunday (go back to previous Sunday)
+  start.setDate(start.getDate() - start.getDay());
 
-  // Build columns (each column = 1 week, 7 cells top=Sun bottom=Sat)
-  const cols = [];
-  const monthPositions = []; // {label, col}
+  // Build weeks
+  const totalWeeks = WEEKS + 1;
+  let monthLabels = [];
   let lastMonth = -1;
+  const cols = [];
 
-  for (let w = 0; w < WEEKS; w++) {
-    const col = [];
+  for (let w = 0; w < totalWeeks; w++) {
+    const weekDates = [];
     for (let d = 0; d < 7; d++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + w * 7 + d);
-      col.push(date);
+      const dt = new Date(start);
+      dt.setDate(start.getDate() + w * 7 + d);
+      weekDates.push(dt);
     }
-    cols.push(col);
-    // month label at first week of month
-    const firstInCol = col[0];
-    if (firstInCol.getMonth() !== lastMonth) {
-      monthPositions.push({ label: MONTH_SHORT[firstInCol.getMonth()], col: w });
-      lastMonth = firstInCol.getMonth();
+    cols.push(weekDates);
+    // Month label: label the week if it contains the 1st of the month
+    const mo = weekDates[0].getMonth();
+    if (mo !== lastMonth) {
+      monthLabels.push({ col: w, label: MONTH_SHORT[mo] });
+      lastMonth = mo;
     }
   }
 
-  // Month labels HTML
-  const CELL = 14; // 11px + 3px gap
-  let monthLabelsHTML = monthPositions.map(mp =>
-    `<span class="hm-month-label" style="left:${mp.col * CELL}px">${mp.label}</span>`
+  // Month labels row
+  let mlHTML = monthLabels.map(ml =>
+    `<span class="hm-month-lbl" style="left:${ml.col * CELL}px">${ml.label}</span>`
   ).join('');
 
-  // Grid columns HTML
-  let colsHTML = cols.map(col => {
-    const cells = col.map(date => {
-      const ds = dateStr(date);
-      const isFuture = date > today;
-      const isChecked = recordSet.has(ds);
-      let bg;
-      if (isFuture) bg = 'transparent';
-      else if (isChecked) bg = color.on;
-      else bg = color.off;
-      const ring = ds === todayFull ? `box-shadow:0 0 0 1.5px ${color.on};` : '';
-      return `<div class="hm-cell" style="background:${bg};${ring}" title="${ds}"></div>`;
+  // Grid
+  let gridHTML = cols.map(week => {
+    const cells = week.map(dt => {
+      const ds = fmtDate(dt);
+      const future = dt > today;
+      const checked = recordSet.has(ds);
+      const isToday = ds === todayFull;
+      let bg = future ? 'transparent' : checked ? color.on : color.off;
+      let extra = isToday ? `box-shadow:0 0 0 1.5px ${color.on};` : '';
+      return `<div class="hm-cell" style="background:${bg};${extra}" title="${ds}"></div>`;
     }).join('');
     return `<div class="hm-col">${cells}</div>`;
   }).join('');
 
-  // Row labels (only Mon, Wed, Fri)
+  // Row labels: blank, Mo, blank, We, blank, Fr, blank
   const rowLabels = ['','Mo','','We','','Fr',''].map(l =>
-    `<div class="hm-row-label">${l}</div>`
+    `<div class="hm-ylabel">${l}</div>`
   ).join('');
 
   wrap.innerHTML = `
-    <div style="display:flex;align-items:flex-start;">
-      <div class="hm-row-labels">${rowLabels}</div>
-      <div class="hm-wrap-inner" style="flex:1">
-        <div style="position:relative;height:14px;margin-bottom:3px;min-width:${WEEKS*CELL}px">
-          ${monthLabelsHTML}
+    <div class="hm-outer">
+      <div class="hm-inner">
+        <div class="hm-ylabels">${rowLabels}</div>
+        <div class="hm-grid-wrap">
+          <div class="hm-month-row" style="width:${totalWeeks*CELL}px">${mlHTML}</div>
+          <div class="hm-grid">${gridHTML}</div>
         </div>
-        <div class="hm-container">${colsHTML}</div>
       </div>
     </div>
   `;
 }
 
-function changeMonth(eventId, delta) {
-  const vm = viewMonth[eventId];
-  let m = vm.month + delta;
-  let y = vm.year;
-  if (m > 11) { m = 0; y++; }
-  if (m < 0)  { m = 11; y--; }
-  // Don't go into future months
+// ── Stats ─────────────────────────────────────────────────────────────────────
+function calcStats(records) {
   const now = new Date();
-  if (y > now.getFullYear() || (y === now.getFullYear() && m > now.getMonth())) return;
-  viewMonth[eventId] = { year: y, month: m };
-  const ev = events.find(e => e.id === eventId);
-  if (ev) renderHeatmap(ev);
-}
-
-function goToday(eventId) {
-  const now = new Date();
-  viewMonth[eventId] = { year: now.getFullYear(), month: now.getMonth() };
-  const ev = events.find(e => e.id === eventId);
-  if (ev) renderHeatmap(ev);
+  const ym = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+  const y = String(now.getFullYear());
+  return {
+    total: records.length,
+    year: records.filter(d => d.startsWith(y)).length,
+    month: records.filter(d => d.startsWith(ym)).length,
+  };
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────────────
 function openModal() {
-  selectedEmoji = EMOJIS[0];
-  selectedColor = COLORS[0].key;
+  selectedEmoji = EMOJIS[0]; selectedColor = COLORS[0].key;
   document.getElementById('inputName').value = '';
-  buildEmojiGrid();
-  buildColorGrid();
+  buildEmojiGrid(); buildColorGrid();
   document.getElementById('overlay').classList.add('open');
   setTimeout(() => document.getElementById('inputName').focus(), 200);
 }
-
-function closeModal() {
-  document.getElementById('overlay').classList.remove('open');
-}
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
 
 function buildEmojiGrid() {
-  const grid = document.getElementById('emojiGrid');
-  grid.innerHTML = '';
+  const g = document.getElementById('emojiGrid'); g.innerHTML = '';
   EMOJIS.forEach(em => {
-    const btn = document.createElement('button');
-    btn.className = 'emoji-btn' + (em === selectedEmoji ? ' selected' : '');
-    btn.textContent = em;
-    btn.onclick = () => {
-      selectedEmoji = em;
-      grid.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    };
-    grid.appendChild(btn);
+    const b = document.createElement('button');
+    b.className = 'emoji-btn' + (em === selectedEmoji ? ' selected' : '');
+    b.textContent = em;
+    b.onclick = () => { selectedEmoji = em; g.querySelectorAll('.emoji-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    g.appendChild(b);
   });
 }
-
 function buildColorGrid() {
-  const grid = document.getElementById('colorGrid');
-  grid.innerHTML = '';
+  const g = document.getElementById('colorGrid'); g.innerHTML = '';
   COLORS.forEach(c => {
-    const btn = document.createElement('button');
-    btn.className = 'color-btn' + (c.key === selectedColor ? ' selected' : '');
-    btn.style.background = c.on;
-    btn.onclick = () => {
-      selectedColor = c.key;
-      grid.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    };
-    grid.appendChild(btn);
+    const b = document.createElement('button');
+    b.className = 'color-btn' + (c.key === selectedColor ? ' selected' : '');
+    b.style.background = c.on;
+    b.onclick = () => { selectedColor = c.key; g.querySelectorAll('.color-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    g.appendChild(b);
   });
 }
-
 function submitNewEvent() {
   const name = document.getElementById('inputName').value.trim();
   if (!name) { document.getElementById('inputName').focus(); return; }
-  const id = 'e' + Date.now();
-  saveNewEvent({ id, name, emoji: selectedEmoji, colorKey: selectedColor });
+  saveNewEvent({ id: 'e' + Date.now(), name, emoji: selectedEmoji, colorKey: selectedColor });
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function todayStr() { return dateStr(new Date()); }
-function dateStr(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-}
-
-function calcStats(records) {
-  const now = new Date();
-  const ym = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-  const y = String(now.getFullYear());
-  return {
-    total: records.length,
-    thisYear: records.filter(d => d.startsWith(y)).length,
-    thisMonth: records.filter(d => d.startsWith(ym)).length,
-  };
-}
-
+// ── Utils ─────────────────────────────────────────────────────────────────────
 function setLoading(on) {
-  document.getElementById('loadingBar').style.width = on ? '70%' : '100%';
-  if (!on) setTimeout(() => { document.getElementById('loadingBar').style.width = '0'; }, 300);
+  document.getElementById('loadingBar').style.width = on ? '65%' : '100%';
+  if (!on) setTimeout(() => document.getElementById('loadingBar').style.width = '0', 300);
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
-
-document.getElementById('overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
+document.getElementById('overlay').addEventListener('click', e => { if (e.target === document.getElementById('overlay')) closeModal(); });
 
 loadData();
 </script>
