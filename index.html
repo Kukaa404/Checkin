@@ -193,6 +193,24 @@ body {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* Heatmap year nav */
+.hm-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.hm-nav-left { display: flex; align-items: center; gap: 4px; }
+.hm-nav-year { font-size: 12px; font-weight: 500; color: var(--text-2); min-width: 32px; text-align: center; }
+.hm-nav-btn {
+  width: 20px; height: 20px; border-radius: 5px;
+  border: none; background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); transition: all 0.15s;
+}
+.hm-nav-btn:hover:not(:disabled) { color: var(--text-1); background: var(--bg); }
+.hm-nav-btn:disabled { opacity: 0.25; cursor: default; }
+.hm-nav-btn svg { width: 10px; height: 10px; }
+.hm-nav-count { font-size: 11px; color: var(--text-3); }
+
 /* Loading */
 .loading-bar {
   position: fixed; top: 0; left: 0; height: 2px;
@@ -266,6 +284,7 @@ const CELL = 13; // 11px + 2px gap
 let events = [];
 let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
+const viewYear = {}; // eventId -> year
 
 // ── API (JSONP) ───────────────────────────────────────────────────────────────
 function jsonp(url) {
@@ -412,19 +431,30 @@ function renderHeatmap(ev) {
   const wrap = document.getElementById('hm-' + ev.id);
   if (!wrap) return;
   const color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  if (!viewYear[ev.id]) viewYear[ev.id] = currentYear;
+  const yr = viewYear[ev.id];
+  const isCurrentYear = yr === currentYear;
+
   const recordSet = new Set(ev.records);
   const today = new Date();
   today.setHours(0,0,0,0);
   const todayFull = todayStr();
 
-  // Start from WEEKS*7 days ago, go back to the nearest Sunday
-  const start = new Date(today);
-  start.setDate(today.getDate() - WEEKS * 7 + 1);
-  // Align to Sunday (go back to previous Sunday)
-  start.setDate(start.getDate() - start.getDay());
-
-  // Build weeks
-  const totalWeeks = WEEKS + 1;
+  // For current year: show last 26 weeks. For past years: show full year.
+  let start, totalWeeks;
+  if (isCurrentYear) {
+    start = new Date(today);
+    start.setDate(today.getDate() - WEEKS * 7 + 1);
+    start.setDate(start.getDate() - start.getDay());
+    totalWeeks = WEEKS + 1;
+  } else {
+    // Full year view: Jan 1 to Dec 31
+    start = new Date(yr, 0, 1);
+    start.setDate(start.getDate() - start.getDay()); // align to Sunday
+    totalWeeks = 54;
+  }
   let monthLabels = [];
   let lastMonth = -1;
   const cols = [];
@@ -454,11 +484,11 @@ function renderHeatmap(ev) {
   let gridHTML = cols.map(week => {
     const cells = week.map(dt => {
       const ds = fmtDate(dt);
-      const future = dt > today;
+      const future = isCurrentYear && dt > today;
       const checked = recordSet.has(ds);
       const isToday = ds === todayFull;
       let bg = future ? 'transparent' : checked ? color.on : color.off;
-      let extra = isToday ? `box-shadow:0 0 0 1.5px ${color.on};` : '';
+      let extra = isToday ? `outline:1.5px solid ${color.on};outline-offset:-1px;` : '';
       return `<div class="hm-cell" style="background:${bg};${extra}" title="${ds}"></div>`;
     }).join('');
     return `<div class="hm-col">${cells}</div>`;
@@ -470,6 +500,18 @@ function renderHeatmap(ev) {
   ).join('');
 
   wrap.innerHTML = `
+    <div class="hm-nav">
+      <div class="hm-nav-left">
+        <button class="hm-nav-btn" onclick="changeHmYear('${ev.id}',-1)">
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="7,1 3,5 7,9"/></svg>
+        </button>
+        <span class="hm-nav-year" id="hm-year-${ev.id}">${viewYear[ev.id]}</span>
+        <button class="hm-nav-btn" onclick="changeHmYear('${ev.id}',1)" ${viewYear[ev.id] >= new Date().getFullYear() ? 'disabled' : ''}>
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="3,1 7,5 3,9"/></svg>
+        </button>
+      </div>
+      <span class="hm-nav-count">${ev.records.filter(r=>r.startsWith(String(viewYear[ev.id]))).length} 次</span>
+    </div>
     <div class="hm-outer">
       <div class="hm-inner">
         <div class="hm-ylabels">${rowLabels}</div>
@@ -541,6 +583,21 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 document.getElementById('overlay').addEventListener('click', e => { if (e.target === document.getElementById('overlay')) closeModal(); });
+
+function changeHmYear(eventId, delta) {
+  const now = new Date();
+  const newYear = (viewYear[eventId] || now.getFullYear()) + delta;
+  if (newYear > now.getFullYear()) return;
+  // Don't go before earliest record year
+  const ev = events.find(e => e.id === eventId);
+  if (ev && ev.records.length > 0) {
+    const minYear = Math.min(...ev.records.map(r => parseInt(r.slice(0,4))));
+    if (newYear < minYear) return;
+  }
+  viewYear[eventId] = newYear;
+  const evFound = events.find(e => e.id === eventId);
+  if (evFound) renderHeatmap(evFound);
+}
 
 loadData();
 </script>
