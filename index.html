@@ -98,56 +98,17 @@
   .btn-delete:hover { color: #E07070; }
   .btn-delete svg { width: 11px; height: 11px; }
 
-  /* Month nav */
-  .month-nav {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 10px;
+  /* Heatmap */
+  .hm-wrap-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .hm-container { display: flex; gap: 3px; width: max-content; padding-bottom: 2px; }
+  .hm-col { display: flex; flex-direction: column; gap: 3px; }
+  .hm-cell {
+    width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0;
   }
-  .month-nav-title {
-    font-size: 12px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.3px;
-  }
-  .month-nav-arrows { display: flex; align-items: center; gap: 2px; }
-  .btn-arrow {
-    width: 24px; height: 24px; border-radius: 6px;
-    border: none; background: transparent; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); transition: all 0.15s;
-  }
-  .btn-arrow:hover { background: var(--bg); color: var(--text-primary); }
-  .btn-arrow:disabled { opacity: 0.3; cursor: default; }
-  .btn-arrow svg { width: 12px; height: 12px; }
-  .btn-today {
-    font-size: 11px; padding: 2px 8px; border-radius: 20px;
-    border: 0.5px solid var(--border-hover); background: transparent;
-    color: var(--text-muted); cursor: pointer; font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-  }
-  .btn-today:hover { color: var(--text-primary); }
-
-  /* Heatmap calendar */
-  .hm-calendar { width: 100%; }
-  .hm-weekdays {
-    display: flex; gap: 3px; margin-bottom: 4px;
-  }
-  .hm-weekday {
-    width: 28px; flex-shrink: 0;
-    font-size: 10px; color: var(--text-muted);
-    text-align: center; padding: 2px 0;
-  }
-  .hm-days {
-    display: flex; flex-wrap: wrap; gap: 3px;
-  }
-  .hm-day {
-    width: 28px; height: 28px; border-radius: 5px;
-    flex-shrink: 0;
-    position: relative; cursor: default;
-    transition: opacity 0.1s;
-  }
-  .hm-day.empty { background: transparent; }
-  .hm-day.inactive { background: var(--bg); }
-  .hm-day.active { }
-  .hm-day.today-ring { box-shadow: 0 0 0 1.5px var(--text-secondary); }
-  .hm-day.future { background: transparent; opacity: 0; }
+  .hm-month-labels { position: relative; height: 14px; margin-bottom: 3px; }
+  .hm-month-label { position: absolute; font-size: 10px; color: var(--text-muted); white-space: nowrap; }
+  .hm-row-labels { display: flex; flex-direction: column; gap: 3px; margin-right: 4px; padding-top: 17px; }
+  .hm-row-label { height: 11px; font-size: 9px; color: var(--text-muted); display: flex; align-items: center; white-space: nowrap; }
 
   /* Empty state */
   .empty {
@@ -448,61 +409,74 @@ function renderHeatmap(ev, color) {
   if (!wrap) return;
   if (!color) color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
 
-  const { year, month } = viewMonth[ev.id];
-  const now = new Date();
-  const isCurrentMonth = year === now.getFullYear() && month === now.getMonth();
-
-  // Can't go before the earliest record or past today's month
-  const hasNext = !(isCurrentMonth);
-  // Find earliest possible month from records
-  const allDates = ev.records.map(r => r).sort();
-  const firstRecord = allDates[0];
-
-  const monthLabel = MONTH_NAMES[month] + ' ' + year;
-
-  // Build calendar grid
-  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const WEEKS = 26; // ~6 months visible
+  const today = new Date();
   const todayFull = todayStr();
   const recordSet = new Set(ev.records);
 
-  let dayCells = '';
-  // empty cells before first day
-  for (let i = 0; i < firstDay; i++) {
-    dayCells += `<div class="hm-day empty"></div>`;
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    const ds = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-    const isFuture = ds > todayFull;
-    const isChecked = recordSet.has(ds);
-    const isToday = ds === todayFull;
-    let cls = 'hm-day';
-    if (isFuture) cls += ' future';
-    else if (isChecked) cls += ' active';
-    else cls += ' inactive';
-    if (isToday) cls += ' today-ring';
-    const style = isChecked ? `background:${color.on};` : '';
-    dayCells += `<div class="${cls}" style="${style}" title="${ds}">${d}</div>`;
+  // Start from WEEKS*7 days ago, aligned to Sunday
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() - (WEEKS * 7) + 1);
+  // align to Sunday
+  startDate.setDate(startDate.getDate() - startDate.getDay());
+
+  // Build columns (each column = 1 week, 7 cells top=Sun bottom=Sat)
+  const cols = [];
+  const monthPositions = []; // {label, col}
+  let lastMonth = -1;
+
+  for (let w = 0; w < WEEKS; w++) {
+    const col = [];
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + w * 7 + d);
+      col.push(date);
+    }
+    cols.push(col);
+    // month label at first week of month
+    const firstInCol = col[0];
+    if (firstInCol.getMonth() !== lastMonth) {
+      monthPositions.push({ label: MONTH_SHORT[firstInCol.getMonth()], col: w });
+      lastMonth = firstInCol.getMonth();
+    }
   }
 
+  // Month labels HTML
+  const CELL = 14; // 11px + 3px gap
+  let monthLabelsHTML = monthPositions.map(mp =>
+    `<span class="hm-month-label" style="left:${mp.col * CELL}px">${mp.label}</span>`
+  ).join('');
+
+  // Grid columns HTML
+  let colsHTML = cols.map(col => {
+    const cells = col.map(date => {
+      const ds = dateStr(date);
+      const isFuture = date > today;
+      const isChecked = recordSet.has(ds);
+      let bg;
+      if (isFuture) bg = 'transparent';
+      else if (isChecked) bg = color.on;
+      else bg = color.off;
+      const ring = ds === todayFull ? `box-shadow:0 0 0 1.5px ${color.on};` : '';
+      return `<div class="hm-cell" style="background:${bg};${ring}" title="${ds}"></div>`;
+    }).join('');
+    return `<div class="hm-col">${cells}</div>`;
+  }).join('');
+
+  // Row labels (only Mon, Wed, Fri)
+  const rowLabels = ['','Mo','','We','','Fr',''].map(l =>
+    `<div class="hm-row-label">${l}</div>`
+  ).join('');
+
   wrap.innerHTML = `
-    <div class="month-nav">
-      <div class="month-nav-title">${monthLabel}</div>
-      <div class="month-nav-arrows">
-        ${!isCurrentMonth ? `<button class="btn-today" onclick="goToday('${ev.id}')">今天</button>` : ''}
-        <button class="btn-arrow" onclick="changeMonth('${ev.id}',-1)">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
-        </button>
-        <button class="btn-arrow" onclick="changeMonth('${ev.id}',1)" ${!hasNext ? 'disabled' : ''}>
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,2 8,6 4,10"/></svg>
-        </button>
+    <div style="display:flex;align-items:flex-start;">
+      <div class="hm-row-labels">${rowLabels}</div>
+      <div class="hm-wrap-inner" style="flex:1">
+        <div style="position:relative;height:14px;margin-bottom:3px;min-width:${WEEKS*CELL}px">
+          ${monthLabelsHTML}
+        </div>
+        <div class="hm-container">${colsHTML}</div>
       </div>
-    </div>
-    <div class="hm-calendar">
-      <div class="hm-weekdays">
-        ${WEEKDAYS.map(w => `<div class="hm-weekday">${w}</div>`).join('')}
-      </div>
-      <div class="hm-days">${dayCells}</div>
     </div>
   `;
 }
