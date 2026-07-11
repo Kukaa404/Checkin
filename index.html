@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Take it easy</title>
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon.svg">
@@ -10,230 +10,247 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Take it easy">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #F7F5F0;
+  --bg: #F5F4EE;
   --surface: #FFFFFF;
-  --border: rgba(0,0,0,0.06);
-  --border-md: rgba(0,0,0,0.10);
-  --text-1: #1A1A1A;
-  --text-2: #8A8880;
-  --text-3: #C0BDB8;
-  --r-card: 20px;
+  --border: rgba(0, 0, 0, 0.04);
+  --border-md: rgba(0, 0, 0, 0.08);
+  --text-1: #1E1E1C;
+  --text-2: #86857F;
+  --text-3: #C2C0BA;
+  --r-card: 24px;
   --r-btn: 100px;
-  --shadow: 0 1px 4px rgba(0,0,0,0.04), 0 0 0 0.5px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.02), 0 0 0 0.5px rgba(0,0,0,0.04);
+  --shadow-md: 0 12px 32px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: var(--bg);
   color: var(--text-1);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-.container { max-width: 660px; margin: 0 auto; padding: 2.25rem 1.25rem 5rem; }
+.container { max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
 
 /* Header */
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.25rem; }
-.logo { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+.logo { font-family: 'DM Serif Display', serif; font-size: 32px; letter-spacing: -0.5px; color: var(--text-1); }
 .btn-new {
-  display: flex; align-items: center; gap: 5px;
-  padding: 8px 18px; border-radius: var(--r-btn);
-  border: 0.5px solid var(--border-md);
-  background: var(--surface); font-size: 13px;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text-2); cursor: pointer; transition: all 0.15s;
-  letter-spacing: 0.1px;
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 20px; border-radius: var(--r-btn);
+  border: 1px solid var(--border-md);
+  background: var(--surface); font-size: 14px;
+  font-weight: 500; color: var(--text-2); cursor: pointer; 
+  transition: var(--transition); box-shadow: var(--shadow-sm);
 }
-.btn-new:hover { color: var(--text-1); background: var(--bg); }
-.btn-new svg { width: 13px; height: 13px; }
+.btn-new:hover { color: var(--text-1); background: var(--surface); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.btn-new:active { transform: translateY(0); }
+.btn-new svg { width: 14px; height: 14px; stroke-width: 2; }
 
 /* Cards */
-.cards { display: flex; flex-direction: column; gap: 12px; }
-
+.cards { display: flex; flex-direction: column; gap: 16px; }
 .card {
   background: var(--surface);
   border-radius: var(--r-card);
-  padding: 1.25rem 1.25rem 1.1rem;
-  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border: 1px solid transparent;
 }
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
 /* Card top row */
-.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.1rem; }
-.card-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+.card-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .card-icon {
-  width: 42px; height: 42px; border-radius: 12px;
+  width: 46px; height: 46px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
+  font-size: 22px; flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
 }
 .card-meta { min-width: 0; }
-.card-name-row { display: flex; align-items: center; gap: 5px; }
-.card-name { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+.card-name-row { display: flex; align-items: center; gap: 8px; }
+.card-name { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; color: var(--text-1); }
 .btn-delete {
-  width: 18px; height: 18px; border-radius: 50%;
-  border: none; background: transparent; cursor: pointer;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: none; background: rgba(0,0,0,0.02); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-3); opacity: 0; transition: opacity 0.15s, color 0.15s; flex-shrink: 0;
+  color: var(--text-3); opacity: 0; transition: var(--transition); flex-shrink: 0;
 }
 .card:hover .btn-delete { opacity: 1; }
-.btn-delete:hover { color: #D07070; }
-.btn-delete svg { width: 9px; height: 9px; }
+.btn-delete:hover { color: #E06666; background: #FDF2F2; }
+.btn-delete svg { width: 10px; height: 10px; stroke-width: 2; }
 
-.card-stats { display: flex; gap: 10px; margin-top: 3px; }
-.stat { font-size: 11px; color: var(--text-2); }
-.stat b { font-weight: 500; color: var(--text-1); font-size: 12px; margin-right: 1px; }
+.card-stats { display: flex; gap: 12px; margin-top: 4px; }
+.stat { font-size: 12px; color: var(--text-2); }
+.stat b { font-weight: 700; color: var(--text-1); margin-right: 2px; }
 
 /* Checkin button */
 .btn-checkin {
-  display: flex; align-items: center; gap: 5px; flex-shrink: 0;
-  padding: 7px 15px; border-radius: var(--r-btn);
-  border: 0.5px solid var(--border-md);
-  background: var(--surface); font-size: 13px;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text-2); cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  padding: 9px 18px; border-radius: var(--r-btn);
+  border: 1px solid var(--border-md);
+  background: var(--surface); font-size: 13px; font-weight: 500;
+  color: var(--text-1); cursor: pointer; transition: var(--transition);
+  box-shadow: var(--shadow-sm);
 }
-.btn-checkin:hover:not(:disabled) { color: var(--text-1); border-color: rgba(0,0,0,0.18); }
-.btn-checkin.done { border-color: transparent; color: var(--text-3); cursor: default; background: transparent; }
-.btn-checkin svg { width: 13px; height: 13px; }
+.btn-checkin:hover:not(:disabled) { background: var(--bg); border-color: rgba(0,0,0,0.15); transform: scale(1.02); }
+.btn-checkin:active:not(:disabled) { transform: scale(0.98); }
+.btn-checkin.done { border-color: transparent; color: var(--text-3); cursor: default; background: transparent; box-shadow: none; }
+.btn-checkin svg { width: 14px; height: 14px; stroke-width: 2; }
 
-/* Heatmap */
-.hm-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.hm-inner { display: flex; align-items: flex-start; gap: 4px; width: max-content; }
-.hm-ylabels { display: flex; flex-direction: column; padding-top: 18px; gap: 2px; }
-.hm-ylabel { height: 11px; font-size: 9px; color: var(--text-3); line-height: 11px; width: 16px; }
+/* Heatmap Header & Navigation */
+.hm-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-top: 4px; border-top: 1px dashed rgba(0,0,0,0.05); }
+.hm-nav-left { display: flex; align-items: center; gap: 6px; margin-top: 8px;}
+.hm-nav-year { font-size: 13px; font-weight: 700; color: var(--text-1); min-width: 36px; text-align: center; }
+.hm-nav-btn {
+  width: 24px; height: 24px; border-radius: 6px;
+  border: 1px solid var(--border-md); background: var(--surface); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-2); transition: var(--transition);
+}
+.hm-nav-btn:hover:not(:disabled) { color: var(--text-1); background: var(--bg); border-color: rgba(0,0,0,0.15); }
+.hm-nav-btn:disabled { opacity: 0.2; cursor: default; border-color: var(--border); }
+.hm-nav-btn svg { width: 12px; height: 12px; stroke-width: 2; }
+.hm-nav-count { font-size: 12px; color: var(--text-2); margin-top: 8px;}
+
+/* Heatmap Grid */
+.hm-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 4px; scroll-behavior: smooth; }
+.hm-outer::-webkit-scrollbar { height: 5px; }
+.hm-outer::-webkit-scrollbar-track { background: transparent; }
+.hm-outer::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 10px; }
+.hm-inner { display: flex; align-items: flex-start; gap: 6px; width: max-content; }
+.hm-ylabels { display: flex; flex-direction: column; padding-top: 18px; gap: 4px; }
+.hm-ylabel { height: 12px; font-size: 10px; font-weight: 500; color: var(--text-3); line-height: 12px; width: 18px; text-align: left; }
 .hm-grid-wrap { display: flex; flex-direction: column; }
-.hm-month-row { display: flex; height: 16px; position: relative; margin-bottom: 2px; }
-.hm-month-lbl { position: absolute; font-size: 10px; color: var(--text-2); white-space: nowrap; }
-.hm-grid { display: flex; gap: 2px; }
-.hm-col { display: flex; flex-direction: column; gap: 2px; }
+.hm-month-row { display: flex; height: 16px; position: relative; margin-bottom: 4px; }
+.hm-month-lbl { position: absolute; font-size: 11px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
+.hm-grid { display: flex; gap: 3px; }
+.hm-col { display: flex; flex-direction: column; gap: 3px; }
 .hm-cell {
-  width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0;
-  transition: opacity 0.1s;
+  width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer; position: relative;
 }
-.hm-cell:hover { opacity: 0.7; }
+.hm-cell:hover { transform: scale(1.25); z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
 
-/* Empty */
-.empty {
-  text-align: center; padding: 4rem 1rem;
-  color: var(--text-3); font-size: 14px; line-height: 2;
+/* Global Custom Tooltip */
+.custom-tooltip {
+  position: absolute; background: #1E1E1C; color: #FFFFFF;
+  padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 500;
+  pointer-events: none; opacity: 0; z-index: 999;
+  transform: translate(-50%, -120%) scale(0.9);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  white-space: nowrap;
 }
-.empty-icon { font-size: 28px; margin-bottom: 0.75rem; opacity: 0.6; }
+.custom-tooltip.show { opacity: 1; transform: translate(-50%, -130%) scale(1); }
+
+/* Empty State */
+.empty { text-align: center; padding: 5rem 1rem; color: var(--text-3); font-size: 15px; }
+.empty-icon { font-size: 36px; margin-bottom: 1rem; filter: grayscale(0.2); }
 
 /* Modal */
 .overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.2);
+  position: fixed; inset: 0; background: rgba(30, 30, 28, 0.2);
   display: flex; align-items: center; justify-content: center;
   z-index: 100; padding: 1rem;
-  opacity: 0; pointer-events: none; transition: opacity 0.18s;
-  backdrop-filter: blur(2px);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
 }
 .overlay.open { opacity: 1; pointer-events: all; }
 .modal {
   background: var(--surface); border-radius: var(--r-card);
-  padding: 1.75rem; width: 100%; max-width: 360px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-  transform: translateY(10px) scale(0.98); transition: transform 0.2s;
+  padding: 2rem; width: 100%; max-width: 380px;
+  box-shadow: var(--shadow-md);
+  transform: translateY(16px) scale(0.96); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .overlay.open .modal { transform: translateY(0) scale(1); }
-.modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 1.25rem; letter-spacing: -0.2px; }
-.form-row { margin-bottom: 1rem; }
-.form-label { font-size: 11px; color: var(--text-2); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.3px; }
+.form-row { margin-bottom: 1.25rem; }
+.form-label { font-size: 11px; font-weight: 700; color: var(--text-2); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.8px; }
 .form-input {
-  width: 100%; padding: 9px 12px; border-radius: 10px;
-  border: 0.5px solid var(--border-md);
-  font-size: 14px; font-family: 'DM Sans', sans-serif;
-  background: var(--bg); color: var(--text-1);
-  outline: none; transition: border-color 0.15s;
+  width: 100%; padding: 11px 14px; border-radius: 12px;
+  border: 1px solid var(--border-md);
+  font-size: 15px; font-family: inherit;
+  background: #F9F8F3; color: var(--text-1);
+  outline: none; transition: var(--transition);
 }
-.form-input:focus { border-color: rgba(0,0,0,0.25); }
-.emoji-grid { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.form-input:focus { border-color: var(--text-1); background: var(--surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.03); }
+.emoji-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; max-height: 120px; overflow-y: auto; padding: 2px; }
 .emoji-btn {
-  width: 34px; height: 34px; border-radius: 8px;
-  border: 0.5px solid var(--border);
-  background: var(--bg); font-size: 17px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.1s;
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 1px solid transparent; background: #F9F8F3; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: var(--transition);
 }
-.emoji-btn:hover { background: var(--surface); transform: scale(1.08); }
-.emoji-btn.selected { box-shadow: 0 0 0 1.5px var(--text-2); background: var(--surface); }
-.color-grid { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.emoji-btn:hover { background: var(--surface); border-color: var(--border-md); transform: scale(1.08); }
+.emoji-btn.selected { background: var(--surface); border-color: var(--text-1); box-shadow: var(--shadow-sm); transform: scale(1.08); }
+.color-grid { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
 .color-btn {
-  width: 26px; height: 26px; border-radius: 50%;
-  border: 2.5px solid transparent; cursor: pointer; transition: transform 0.1s;
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 3px solid var(--surface); cursor: pointer; transition: var(--transition);
+  box-shadow: 0 0 0 1px var(--border-md);
 }
 .color-btn:hover { transform: scale(1.15); }
-.color-btn.selected { border-color: var(--text-2); }
-.modal-actions { display: flex; gap: 8px; margin-top: 1.5rem; }
+.color-btn.selected { transform: scale(1.15); box-shadow: 0 0 0 2px var(--text-1); }
+.modal-actions { display: flex; gap: 10px; margin-top: 2rem; }
 .btn-cancel {
-  flex: 1; padding: 10px; border-radius: var(--r-btn);
-  border: 0.5px solid var(--border-md);
-  background: transparent; font-size: 13px;
-  font-family: 'DM Sans', sans-serif; color: var(--text-2); cursor: pointer;
+  flex: 1; padding: 12px; border-radius: var(--r-btn);
+  border: 1px solid var(--border-md); background: transparent; 
+  font-size: 14px; font-weight: 500; color: var(--text-2); cursor: pointer; transition: var(--transition);
 }
+.btn-cancel:hover { color: var(--text-1); background: #F9F8F3; }
 .btn-confirm {
-  flex: 2; padding: 10px; border-radius: var(--r-btn);
+  flex: 2; padding: 12px; border-radius: var(--r-btn);
   border: none; background: var(--text-1); color: #fff;
-  font-size: 13px; font-family: 'DM Sans', sans-serif;
-  cursor: pointer; transition: opacity 0.15s;
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition);
 }
-.btn-confirm:hover { opacity: 0.8; }
+.btn-confirm:hover { opacity: 0.9; transform: translateY(-1px); }
 
 /* Toast */
 .toast {
-  position: fixed; bottom: 2rem; left: 50%;
-  transform: translateX(-50%) translateY(8px);
+  position: fixed; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%) translateY(12px);
   background: var(--text-1); color: #fff;
-  padding: 8px 18px; border-radius: var(--r-btn);
-  font-size: 13px; opacity: 0; transition: all 0.22s;
-  pointer-events: none; white-space: nowrap; z-index: 200;
+  padding: 10px 22px; border-radius: var(--r-btn);
+  font-size: 13px; font-weight: 500; opacity: 0; transition: var(--transition);
+  pointer-events: none; white-space: nowrap; z-index: 200; box-shadow: var(--shadow-md);
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* Heatmap year nav */
-.hm-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
-}
-.hm-nav-left { display: flex; align-items: center; gap: 4px; }
-.hm-nav-year { font-size: 12px; font-weight: 500; color: var(--text-2); min-width: 32px; text-align: center; }
-.hm-nav-btn {
-  width: 20px; height: 20px; border-radius: 5px;
-  border: none; background: transparent; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-3); transition: all 0.15s;
-}
-.hm-nav-btn:hover:not(:disabled) { color: var(--text-1); background: var(--bg); }
-.hm-nav-btn:disabled { opacity: 0.25; cursor: default; }
-.hm-nav-btn svg { width: 10px; height: 10px; }
-.hm-nav-count { font-size: 11px; color: var(--text-3); }
-
-/* Loading */
+/* Loading Bar */
 .loading-bar {
-  position: fixed; top: 0; left: 0; height: 2px;
+  position: fixed; top: 0; left: 0; height: 3px;
   background: linear-gradient(90deg, #B8A8D8, #8EC4A4, #F0A8A8);
-  width: 0; transition: width 0.3s; z-index: 300;
+  width: 0; transition: width 0.4s ease; z-index: 300;
 }
 
 @media (max-width: 480px) {
-  .container { padding: 1.5rem 1rem 4rem; }
-  .logo { font-size: 24px; }
-  .card { padding: 1rem 1rem 0.9rem; }
+  .container { padding: 2rem 1rem 5rem; }
+  .logo { font-size: 28px; }
+  .card { padding: 1.25rem; border-radius: 20px; }
+  .hm-ylabel { display: none; } /* 移动端精简：隐藏周一/三/五的文本标签释放空间 */
+  .hm-ylabels { display: none; }
 }
 </style>
 </head>
 <body>
 <div class="loading-bar" id="loadingBar"></div>
 <div class="toast" id="toast"></div>
+<div class="custom-tooltip" id="customTooltip"></div>
 
 <div class="container">
   <header class="header">
     <div class="logo">Take it easy</div>
     <button class="btn-new" onclick="openModal()">
-      <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-linecap="round">
         <line x1="6.5" y1="1.5" x2="6.5" y2="11.5"/><line x1="1.5" y1="6.5" x2="11.5" y2="6.5"/>
       </svg>
       新建事件
@@ -273,18 +290,46 @@ const COLORS = [
   { on: '#F0A8A8', off: '#FAEAEA', bg: '#FDF2F2', key: 'pink'   },
   { on: '#A8C4D8', off: '#E2EEF5', bg: '#EEF4F8', key: 'blue'   },
   { on: '#B8C89A', off: '#E8EED8', bg: '#F0F4E4', key: 'sage'   },
-  { on: '#D4A8C0', off: '#F0E2EC', bg: '#F8EEF4', bg: '#F8EEF4', key: 'rose' },
+  { on: '#D4A8C0', off: '#F0E2EC', bg: '#F8EEF4', key: 'rose'   },
 ];
 
 const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕','🌈','🎈','🪁'];
 const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const WEEKS = 26;
-const CELL = 13; // 11px + 2px gap
+const CELL = 15; // 改为 12px + 3px gap = 15
 
 let events = [];
 let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
 const viewYear = {}; // eventId -> year
+
+// ── Tooltip 逻辑 ──────────────────────────────────────────────────────────────
+const tooltip = document.getElementById('customTooltip');
+function initTooltipListeners() {
+  document.addEventListener('mouseover', e => {
+    const cell = e.target.closest('.hm-cell');
+    if (!cell) { tooltip.classList.remove('show'); return; }
+    
+    const dateStr = cell.getAttribute('data-date');
+    const isChecked = cell.getAttribute('data-checked') === 'true';
+    const isFuture = cell.getAttribute('data-future') === 'true';
+    
+    let statusText = isChecked ? '已打卡' : '未打卡';
+    if (isFuture) statusText = '暂无记录';
+    
+    tooltip.textContent = `${dateStr} ${statusText}`;
+    tooltip.classList.add('show');
+    
+    const rect = cell.getBoundingClientRect();
+    tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+    tooltip.style.top = `${rect.top + window.scrollY}px`;
+  });
+
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('.hm-cell')) tooltip.classList.remove('show');
+  });
+}
+initTooltipListeners();
 
 // ── API (JSONP) ───────────────────────────────────────────────────────────────
 function jsonp(url) {
@@ -315,13 +360,10 @@ async function loadData() {
   }
 }
 
-// Normalize any date format to YYYY-MM-DD
 function normalizeDate(raw) {
   if (!raw) return '';
   const s = String(raw).trim();
-  // Already YYYY-MM-DD
   if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-  // Try parsing
   const d = new Date(s);
   if (!isNaN(d)) return fmtDate(d);
   return s;
@@ -379,11 +421,18 @@ function renderAll() {
   const c = document.getElementById('cardsContainer');
   c.innerHTML = '';
   if (!events.length) {
-    c.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点右上角创建第一个</div>`;
+    c.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点击右上角创建第一个吧</div>`;
     return;
   }
   events.forEach(ev => c.appendChild(buildCard(ev)));
-  events.forEach(ev => renderHeatmap(ev));
+  events.forEach(ev => {
+    renderHeatmap(ev);
+    // 核心改进：如果是当前年，渲染完热力图后自动让滚动条右对齐，暴露出最新的日期
+    if (!viewYear[ev.id] || viewYear[ev.id] === new Date().getFullYear()) {
+      const outer = document.querySelector(`#card-${ev.id} .hm-outer`);
+      if (outer) outer.scrollLeft = outer.scrollWidth;
+    }
+  });
 }
 
 function buildCard(ev) {
@@ -402,8 +451,8 @@ function buildCard(ev) {
         <div class="card-meta">
           <div class="card-name-row">
             <div class="card-name">${ev.name}</div>
-            <button class="btn-delete" onclick="deleteEvent('${ev.id}')">
-              <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <button class="btn-delete" onclick="deleteEvent('${ev.id}')" title="删除事件">
+              <svg viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-linecap="round">
                 <line x1="1" y1="1" x2="8" y2="8"/><line x1="8" y1="1" x2="1" y2="8"/>
               </svg>
             </button>
@@ -417,8 +466,8 @@ function buildCard(ev) {
       </div>
       <button class="btn-checkin ${done ? 'done' : ''}" onclick="doCheckin('${ev.id}')" ${done ? 'disabled' : ''}>
         ${done
-          ? `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,7 5,10 11,3"/></svg>今日已打卡`
-          : `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><polyline points="4,6.5 6,8.5 9.5,4.5"/></svg>打卡`
+          ? `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="2,7 5,10 11,3"/></svg>今日已完成`
+          : `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><polyline points="4,6.5 6,8.5 9.5,4.5"/></svg>Nice`
         }
       </button>
     </div>
@@ -442,7 +491,6 @@ function renderHeatmap(ev) {
   today.setHours(0,0,0,0);
   const todayFull = todayStr();
 
-  // For current year: show last 26 weeks. For past years: show full year.
   let start, totalWeeks;
   if (isCurrentYear) {
     start = new Date(today);
@@ -450,9 +498,8 @@ function renderHeatmap(ev) {
     start.setDate(start.getDate() - start.getDay());
     totalWeeks = WEEKS + 1;
   } else {
-    // Full year view: Jan 1 to Dec 31
     start = new Date(yr, 0, 1);
-    start.setDate(start.getDate() - start.getDay()); // align to Sunday
+    start.setDate(start.getDate() - start.getDay());
     totalWeeks = 54;
   }
   let monthLabels = [];
@@ -467,7 +514,6 @@ function renderHeatmap(ev) {
       weekDates.push(dt);
     }
     cols.push(weekDates);
-    // Month label: label the week if it contains the 1st of the month
     const mo = weekDates[0].getMonth();
     if (mo !== lastMonth) {
       monthLabels.push({ col: w, label: MONTH_SHORT[mo] });
@@ -475,12 +521,10 @@ function renderHeatmap(ev) {
     }
   }
 
-  // Month labels row
   let mlHTML = monthLabels.map(ml =>
     `<span class="hm-month-lbl" style="left:${ml.col * CELL}px">${ml.label}</span>`
   ).join('');
 
-  // Grid
   let gridHTML = cols.map(week => {
     const cells = week.map(dt => {
       const ds = fmtDate(dt);
@@ -489,12 +533,12 @@ function renderHeatmap(ev) {
       const isToday = ds === todayFull;
       let bg = future ? 'transparent' : checked ? color.on : color.off;
       let extra = isToday ? `outline:1.5px solid ${color.on};outline-offset:-1px;` : '';
-      return `<div class="hm-cell" style="background:${bg};${extra}" title="${ds}"></div>`;
+      // 通过 data 属性将元数据保存到 DOM 结构中，供给新型 Tooltip 使用
+      return `<div class="hm-cell" style="background:${bg};${extra}" data-date="${ds}" data-checked="${checked}" data-future="${future}"></div>`;
     }).join('');
     return `<div class="hm-col">${cells}</div>`;
   }).join('');
 
-  // Row labels: blank, Mo, blank, We, blank, Fr, blank
   const rowLabels = ['','Mo','','We','','Fr',''].map(l =>
     `<div class="hm-ylabel">${l}</div>`
   ).join('');
@@ -503,14 +547,14 @@ function renderHeatmap(ev) {
     <div class="hm-nav">
       <div class="hm-nav-left">
         <button class="hm-nav-btn" onclick="changeHmYear('${ev.id}',-1)">
-          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="7,1 3,5 7,9"/></svg>
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="7,1 3,5 7,9"/></svg>
         </button>
         <span class="hm-nav-year" id="hm-year-${ev.id}">${viewYear[ev.id]}</span>
         <button class="hm-nav-btn" onclick="changeHmYear('${ev.id}',1)" ${viewYear[ev.id] >= new Date().getFullYear() ? 'disabled' : ''}>
-          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="3,1 7,5 3,9"/></svg>
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="3,1 7,5 3,9"/></svg>
         </button>
       </div>
-      <span class="hm-nav-count">${ev.records.filter(r=>r.startsWith(String(viewYear[ev.id]))).length} 次</span>
+      <span class="hm-nav-count">${ev.records.filter(r=>r.startsWith(String(viewYear[ev.id]))).length} 次打卡</span>
     </div>
     <div class="hm-outer">
       <div class="hm-inner">
@@ -544,7 +588,7 @@ function openModal() {
   document.getElementById('overlay').classList.add('open');
   setTimeout(() => document.getElementById('inputName').focus(), 200);
 }
-function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+function closeModal() { document.getElementById('overlay').classList.remove('remove'); document.getElementById('overlay').classList.remove('open'); }
 
 function buildEmojiGrid() {
   const g = document.getElementById('emojiGrid'); g.innerHTML = '';
@@ -588,7 +632,6 @@ function changeHmYear(eventId, delta) {
   const now = new Date();
   const newYear = (viewYear[eventId] || now.getFullYear()) + delta;
   if (newYear > now.getFullYear()) return;
-  // Don't go before earliest record year
   const ev = events.find(e => e.id === eventId);
   if (ev && ev.records.length > 0) {
     const minYear = Math.min(...ev.records.map(r => parseInt(r.slice(0,4))));
@@ -596,7 +639,14 @@ function changeHmYear(eventId, delta) {
   }
   viewYear[eventId] = newYear;
   const evFound = events.find(e => e.id === eventId);
-  if (evFound) renderHeatmap(evFound);
+  if (evFound) {
+    renderHeatmap(evFound);
+    // 如果切回了当前年，确保滚动条靠右
+    if (newYear === now.getFullYear()) {
+      const outer = document.querySelector(`#card-${eventId} .hm-outer`);
+      if (outer) outer.scrollLeft = outer.scrollWidth;
+    }
+  }
 }
 
 loadData();
