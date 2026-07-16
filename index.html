@@ -10,28 +10,32 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Take it easy">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #F5F4EE;
+  --bg: #F8F7F3; /* 更柔和的纸张色 */
   --surface: #FFFFFF;
   --border: rgba(0, 0, 0, 0.04);
   --border-md: rgba(0, 0, 0, 0.08);
   --text-1: #1E1E1C;
   --text-2: #86857F;
   --text-3: #C2C0BA;
-  --r-card: 24px;
+  --r-card: 28px; /* 更圆润的卡片 */
   --r-btn: 100px;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.02), 0 0 0 0.5px rgba(0,0,0,0.04);
-  --shadow-md: 0 12px 32px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04);
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,0.03), 0 0 0 1px rgba(0,0,0,0.01);
+  --shadow-md: 0 12px 40px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.01);
+  --transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
+  background-color: var(--bg);
+  /* 新增：手账点阵背景 */
+  background-image: radial-gradient(#E4E2DA 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
   color: var(--text-1);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -41,7 +45,8 @@ body {
 
 /* Header */
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
-.logo { font-family: 'DM Serif Display', serif; font-size: 32px; letter-spacing: -0.5px; color: var(--text-1); }
+/* 使用新的 Patrick Hand 字体，完美还原你给的图片风格 */
+.logo { font-family: 'Patrick Hand', cursive; font-size: 38px; font-weight: 400; letter-spacing: 0.5px; color: var(--text-1); }
 .btn-new {
   display: flex; align-items: center; gap: 6px;
   padding: 10px 20px; border-radius: var(--r-btn);
@@ -50,76 +55,111 @@ body {
   font-weight: 500; color: var(--text-2); cursor: pointer; 
   transition: var(--transition); box-shadow: var(--shadow-sm);
 }
-.btn-new:hover { color: var(--text-1); background: var(--surface); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.btn-new:hover { color: var(--text-1); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
 .btn-new:active { transform: translateY(0); }
 .btn-new svg { width: 14px; height: 14px; stroke-width: 2; }
 
 /* Cards */
-.cards { display: flex; flex-direction: column; gap: 16px; }
+.cards { display: flex; flex-direction: column; gap: 20px; }
 .card {
   background: var(--surface);
   border-radius: var(--r-card);
-  padding: 1.5rem;
+  padding: 1.75rem; /* 增加一点内边距让呼吸感更好 */
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
   border: 1px solid transparent;
+  position: relative;
 }
-.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
 /* Card top row */
-.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-.card-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; width: 100%; }
+.card-left { display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1; }
 .card-icon {
-  width: 46px; height: 46px; border-radius: 14px;
+  width: 52px; height: 52px; border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
+  font-size: 26px; flex-shrink: 0;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
 }
-.card-meta { min-width: 0; }
+.card-meta { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .card-name-row { display: flex; align-items: center; gap: 8px; }
-.card-name { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; color: var(--text-1); }
+.card-name { font-size: 18px; font-weight: 700; letter-spacing: -0.2px; color: var(--text-1); }
 .btn-delete {
-  width: 20px; height: 20px; border-radius: 50%;
-  border: none; background: rgba(0,0,0,0.02); cursor: pointer;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: none; background: rgba(0,0,0,0.03); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   color: var(--text-3); opacity: 0; transition: var(--transition); flex-shrink: 0;
 }
 .card:hover .btn-delete { opacity: 1; }
-.btn-delete:hover { color: #E06666; background: #FDF2F2; }
+.btn-delete:hover { color: #E06666; background: #FDF2F2; transform: scale(1.1); }
 .btn-delete svg { width: 10px; height: 10px; stroke-width: 2; }
 
-.card-stats { display: flex; gap: 12px; margin-top: 4px; }
-.stat { font-size: 12px; color: var(--text-2); }
-.stat b { font-weight: 700; color: var(--text-1); margin-right: 2px; }
+.card-stats { display: flex; gap: 12px; }
+.stat { font-size: 12px; color: var(--text-2); display: flex; align-items: baseline; gap: 3px; }
+.stat b { font-size: 14px; font-weight: 700; color: var(--text-1); }
 
-/* Checkin button */
+/* Checkin & Retro actions */
+.card-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; height: 38px; justify-content: flex-end; }
+.btn-retro {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  height: 100%; padding: 0 16px; border-radius: var(--r-btn);
+  background: var(--bg); border: none; /* 改为胶囊样式 */
+  font-size: 12px; font-weight: 500; color: var(--text-2); cursor: pointer;
+  transition: var(--transition); overflow: hidden;
+}
+.btn-retro:hover { color: var(--text-1); background: #EBEAE4; transform: scale(1.02); }
+.btn-retro input[type="date"] {
+  position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;
+}
+
+/* 按钮动画关键帧 */
+@keyframes pop-bounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* 优化后的主题色打卡按钮 */
 .btn-checkin {
   display: flex; align-items: center; gap: 6px; flex-shrink: 0;
-  padding: 9px 18px; border-radius: var(--r-btn);
-  border: 1px solid var(--border-md);
-  background: var(--surface); font-size: 13px; font-weight: 500;
-  color: var(--text-1); cursor: pointer; transition: var(--transition);
-  box-shadow: var(--shadow-sm);
+  height: 100%; padding: 0 20px; border-radius: var(--r-btn);
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: var(--transition);
+  
+  /* 默认未打卡状态：读取内联样式的动态主题色 */
+  background: var(--theme); 
+  color: #FFFFFF; 
+  border: none;
+  box-shadow: 0 4px 12px var(--theme-shadow);
 }
-.btn-checkin:hover:not(:disabled) { background: var(--bg); border-color: rgba(0,0,0,0.15); transform: scale(1.02); }
-.btn-checkin:active:not(:disabled) { transform: scale(0.98); }
-.btn-checkin.done { border-color: transparent; color: var(--text-3); cursor: default; background: transparent; box-shadow: none; }
-.btn-checkin svg { width: 14px; height: 14px; stroke-width: 2; }
+.btn-checkin:hover:not(:disabled) { filter: brightness(1.05); transform: translateY(-1px) scale(1.02); box-shadow: 0 6px 16px var(--theme-shadow); }
+.btn-checkin:active:not(:disabled) { transform: scale(0.96); }
+.btn-checkin.animating { animation: pop-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+/* 已打卡状态 */
+.btn-checkin.done { 
+  background: transparent; color: var(--text-3); 
+  box-shadow: none; cursor: default; padding-right: 0; font-weight: 500;
+}
+.btn-checkin svg { width: 15px; height: 15px; stroke-width: 2.5; }
 
 /* Heatmap Header & Navigation */
-.hm-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-top: 4px; border-top: 1px dashed rgba(0,0,0,0.05); }
-.hm-nav-left { display: flex; align-items: center; gap: 6px; margin-top: 8px;}
+.hm-nav { 
+  display: flex; align-items: center; justify-content: space-between; 
+  margin-bottom: 12px; padding-top: 14px; border-top: 1px dashed var(--border-md); 
+  width: 100%;
+}
+.hm-nav-left { display: flex; align-items: center; gap: 8px; }
 .hm-nav-year { font-size: 13px; font-weight: 700; color: var(--text-1); min-width: 36px; text-align: center; }
 .hm-nav-btn {
-  width: 24px; height: 24px; border-radius: 6px;
-  border: 1px solid var(--border-md); background: var(--surface); cursor: pointer;
+  width: 26px; height: 26px; border-radius: 8px;
+  border: none; background: rgba(0,0,0,0.03); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   color: var(--text-2); transition: var(--transition);
 }
-.hm-nav-btn:hover:not(:disabled) { color: var(--text-1); background: var(--bg); border-color: rgba(0,0,0,0.15); }
-.hm-nav-btn:disabled { opacity: 0.2; cursor: default; border-color: var(--border); }
+.hm-nav-btn:hover:not(:disabled) { color: var(--text-1); background: rgba(0,0,0,0.06); transform: scale(1.05); }
+.hm-nav-btn:disabled { opacity: 0.2; cursor: default; }
 .hm-nav-btn svg { width: 12px; height: 12px; stroke-width: 2; }
-.hm-nav-count { font-size: 12px; color: var(--text-2); margin-top: 8px;}
+.hm-nav-count { font-size: 13px; color: var(--text-2); } 
 
 /* Heatmap Grid */
 .hm-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 4px; scroll-behavior: smooth; }
@@ -128,115 +168,116 @@ body {
 .hm-outer::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 10px; }
 .hm-inner { display: flex; align-items: flex-start; gap: 6px; width: max-content; }
 .hm-ylabels { display: flex; flex-direction: column; padding-top: 18px; gap: 4px; }
-.hm-ylabel { height: 12px; font-size: 10px; font-weight: 500; color: var(--text-3); line-height: 12px; width: 18px; text-align: left; }
+.hm-ylabel { height: 13px; font-size: 10px; font-weight: 500; color: var(--text-3); line-height: 13px; width: 18px; text-align: left; }
 .hm-grid-wrap { display: flex; flex-direction: column; }
 .hm-month-row { display: flex; height: 16px; position: relative; margin-bottom: 4px; }
 .hm-month-lbl { position: absolute; font-size: 11px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
-.hm-grid { display: flex; gap: 3px; }
-.hm-col { display: flex; flex-direction: column; gap: 3px; }
+.hm-grid { display: flex; gap: 4px; } /* 稍微拉开一点间距 */
+.hm-col { display: flex; flex-direction: column; gap: 4px; }
 .hm-cell {
-  width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 13px; height: 13px; border-radius: 4px; /* 改成了更可爱的4px圆角 */
+  flex-shrink: 0;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s ease;
   cursor: pointer; position: relative;
 }
-.hm-cell:hover { transform: scale(1.25); z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.hm-cell:hover { transform: scale(1.3); z-index: 2; box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
 
 /* Global Custom Tooltip */
 .custom-tooltip {
   position: absolute; background: #1E1E1C; color: #FFFFFF;
-  padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 500;
+  padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 500;
   pointer-events: none; opacity: 0; z-index: 999;
   transform: translate(-50%, -120%) scale(0.9);
   transition: opacity 0.15s ease, transform 0.15s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
   white-space: nowrap;
 }
 .custom-tooltip.show { opacity: 1; transform: translate(-50%, -130%) scale(1); }
 
 /* Empty State */
-.empty { text-align: center; padding: 5rem 1rem; color: var(--text-3); font-size: 15px; }
-.empty-icon { font-size: 36px; margin-bottom: 1rem; filter: grayscale(0.2); }
+.empty { text-align: center; padding: 6rem 1rem; color: var(--text-3); font-size: 15px; }
+.empty-icon { font-size: 42px; margin-bottom: 1rem; opacity: 0.5; filter: grayscale(0.5); }
 
 /* Modal */
 .overlay {
-  position: fixed; inset: 0; background: rgba(30, 30, 28, 0.2);
+  position: fixed; inset: 0; background: rgba(30, 30, 28, 0.25);
   display: flex; align-items: center; justify-content: center;
   z-index: 100; padding: 1rem;
-  opacity: 0; pointer-events: none; transition: opacity 0.2s;
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
 .overlay.open { opacity: 1; pointer-events: all; }
 .modal {
-  background: var(--surface); border-radius: var(--r-card);
-  padding: 2rem; width: 100%; max-width: 380px;
+  background: var(--surface); border-radius: 32px;
+  padding: 2.25rem; width: 100%; max-width: 380px;
   box-shadow: var(--shadow-md);
-  transform: translateY(16px) scale(0.96); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(20px) scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .overlay.open .modal { transform: translateY(0) scale(1); }
-.modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.3px; }
-.form-row { margin-bottom: 1.25rem; }
-.form-label { font-size: 11px; font-weight: 700; color: var(--text-2); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.8px; }
+.modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 1.75rem; letter-spacing: -0.3px; }
+.form-row { margin-bottom: 1.5rem; }
+.form-label { font-size: 11px; font-weight: 700; color: var(--text-2); margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; }
 .form-input {
-  width: 100%; padding: 11px 14px; border-radius: 12px;
+  width: 100%; padding: 14px 16px; border-radius: 14px;
   border: 1px solid var(--border-md);
-  font-size: 15px; font-family: inherit;
-  background: #F9F8F3; color: var(--text-1);
+  font-size: 15px; font-family: inherit; font-weight: 500;
+  background: var(--bg); color: var(--text-1);
   outline: none; transition: var(--transition);
 }
-.form-input:focus { border-color: var(--text-1); background: var(--surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.03); }
-.emoji-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; max-height: 120px; overflow-y: auto; padding: 2px; }
+.form-input:focus { border-color: var(--text-1); background: var(--surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.04); }
+.emoji-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; max-height: 140px; overflow-y: auto; padding: 2px; }
 .emoji-btn {
-  width: 36px; height: 36px; border-radius: 10px;
-  border: 1px solid transparent; background: #F9F8F3; font-size: 18px; cursor: pointer;
+  width: 40px; height: 40px; border-radius: 12px;
+  border: 1px solid transparent; background: var(--bg); font-size: 20px; cursor: pointer;
   display: flex; align-items: center; justify-content: center; transition: var(--transition);
 }
-.emoji-btn:hover { background: var(--surface); border-color: var(--border-md); transform: scale(1.08); }
-.emoji-btn.selected { background: var(--surface); border-color: var(--text-1); box-shadow: var(--shadow-sm); transform: scale(1.08); }
-.color-grid { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.emoji-btn:hover { background: var(--surface); transform: scale(1.1); box-shadow: var(--shadow-sm); }
+.emoji-btn.selected { background: var(--surface); border-color: var(--text-1); box-shadow: 0 4px 12px rgba(0,0,0,0.06); transform: scale(1.1); }
+.color-grid { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
 .color-btn {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 3px solid var(--surface); cursor: pointer; transition: var(--transition);
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 4px solid var(--surface); cursor: pointer; transition: var(--transition);
   box-shadow: 0 0 0 1px var(--border-md);
 }
 .color-btn:hover { transform: scale(1.15); }
 .color-btn.selected { transform: scale(1.15); box-shadow: 0 0 0 2px var(--text-1); }
-.modal-actions { display: flex; gap: 10px; margin-top: 2rem; }
+.modal-actions { display: flex; gap: 12px; margin-top: 2.5rem; }
 .btn-cancel {
-  flex: 1; padding: 12px; border-radius: var(--r-btn);
-  border: 1px solid var(--border-md); background: transparent; 
-  font-size: 14px; font-weight: 500; color: var(--text-2); cursor: pointer; transition: var(--transition);
+  flex: 1; padding: 14px; border-radius: var(--r-btn);
+  border: none; background: var(--bg); 
+  font-size: 14px; font-weight: 600; color: var(--text-2); cursor: pointer; transition: var(--transition);
 }
-.btn-cancel:hover { color: var(--text-1); background: #F9F8F3; }
+.btn-cancel:hover { color: var(--text-1); background: #EBEAE4; }
 .btn-confirm {
-  flex: 2; padding: 12px; border-radius: var(--r-btn);
+  flex: 2; padding: 14px; border-radius: var(--r-btn);
   border: none; background: var(--text-1); color: #fff;
-  font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition);
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--transition);
 }
-.btn-confirm:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
 
 /* Toast */
 .toast {
-  position: fixed; bottom: 2.5rem; left: 50%;
-  transform: translateX(-50%) translateY(12px);
-  background: var(--text-1); color: #fff;
-  padding: 10px 22px; border-radius: var(--r-btn);
-  font-size: 13px; font-weight: 500; opacity: 0; transition: var(--transition);
-  pointer-events: none; white-space: nowrap; z-index: 200; box-shadow: var(--shadow-md);
+  position: fixed; bottom: 3rem; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: #1E1E1C; color: #FFFFFF;
+  padding: 12px 24px; border-radius: var(--r-btn);
+  font-size: 14px; font-weight: 600; opacity: 0; transition: var(--transition);
+  pointer-events: none; white-space: nowrap; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* Loading Bar */
 .loading-bar {
-  position: fixed; top: 0; left: 0; height: 3px;
+  position: fixed; top: 0; left: 0; height: 4px;
   background: linear-gradient(90deg, #B8A8D8, #8EC4A4, #F0A8A8);
   width: 0; transition: width 0.4s ease; z-index: 300;
 }
 
 @media (max-width: 480px) {
   .container { padding: 2rem 1rem 5rem; }
-  .logo { font-size: 28px; }
-  .card { padding: 1.25rem; border-radius: 20px; }
-  .hm-ylabel { display: none; } /* 移动端精简：隐藏周一/三/五的文本标签释放空间 */
+  .logo { font-size: 34px; }
+  .card { padding: 1.25rem; border-radius: 24px; }
+  .hm-ylabel { display: none; }
   .hm-ylabels { display: none; }
 }
 </style>
@@ -282,6 +323,7 @@ body {
 </div>
 
 <script>
+// 这里使用的是你真实的后端接口
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzLHiJPQanEDWJRX-XS1SaQYf1Bb8Q94dan9107J_kijLsd555HFs0fsfYNpLttNNe-/exec';
 
 const COLORS = [
@@ -296,14 +338,14 @@ const COLORS = [
 const EMOJIS = ['🥁','💪','📖','🎸','🏃','🧘','✍️','🎨','🎵','🌱','🚴','🏊','🍳','🧠','💻','🎯','🌿','☕','🌈','🎈','🪁'];
 const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const WEEKS = 26;
-const CELL = 15; // 改为 12px + 3px gap = 15
+const CELL = 17; // 调整为了 13px + 4px gap
 
 let events = [];
 let selectedEmoji = EMOJIS[0];
 let selectedColor = COLORS[0].key;
-const viewYear = {}; // eventId -> year
+const viewYear = {}; 
 
-// ── Tooltip 逻辑 ──────────────────────────────────────────────────────────────
+// Tooltip 逻辑
 const tooltip = document.getElementById('customTooltip');
 function initTooltipListeners() {
   document.addEventListener('mouseover', e => {
@@ -314,7 +356,7 @@ function initTooltipListeners() {
     const isChecked = cell.getAttribute('data-checked') === 'true';
     const isFuture = cell.getAttribute('data-future') === 'true';
     
-    let statusText = isChecked ? '已打卡' : '未打卡';
+    let statusText = isChecked ? '已完成' : '待打卡';
     if (isFuture) statusText = '暂无记录';
     
     tooltip.textContent = `${dateStr} ${statusText}`;
@@ -331,7 +373,7 @@ function initTooltipListeners() {
 }
 initTooltipListeners();
 
-// ── API (JSONP) ───────────────────────────────────────────────────────────────
+// API 逻辑
 function jsonp(url) {
   return new Promise((resolve, reject) => {
     const cb = '_cb' + Date.now() + Math.random().toString(36).slice(2);
@@ -377,19 +419,80 @@ function fmtDate(d) {
 
 function todayStr() { return fmtDate(new Date()); }
 
-async function doCheckin(eventId) {
-  const today = todayStr();
+// 触发撒花动画函数
+function triggerConfetti(eventId, themeColor) {
+  const card = document.getElementById(`card-${eventId}`);
+  if (!card || typeof confetti === 'undefined') return;
+  
+  const rect = card.getBoundingClientRect();
+  const x = (rect.left + rect.width / 2) / window.innerWidth;
+  const y = (rect.top + rect.height / 2) / window.innerHeight;
+  
+  confetti({
+    particleCount: 80,
+    spread: 70,
+    origin: { x, y },
+    colors: [themeColor.on, themeColor.off, '#F0A8A8', '#F2EFF9'],
+    disableForReducedMotion: true,
+    zIndex: 9999
+  });
+}
+
+// 打卡 & 补卡核心逻辑
+async function doCheckin(eventId, targetDate) {
+  const dateToRecord = targetDate || todayStr(); 
+  const isToday = dateToRecord === todayStr();
   const ev = events.find(e => e.id === eventId);
-  if (!ev || ev.records.includes(today)) return;
-  ev.records.push(today);
-  renderAll();
+  const color = COLORS.find(c => c.key === ev.colorKey) || COLORS[0];
+  
+  if (!ev || ev.records.includes(dateToRecord)) return;
+  
+  // 给按钮添加弹动动画 class
+  const btn = document.querySelector(`#card-${eventId} .btn-checkin`);
+  if (btn && isToday) {
+    btn.classList.add('animating');
+    setTimeout(() => btn.classList.remove('animating'), 400);
+  }
+  
+  // 如果是今天打卡，触发撒花动画
+  if (isToday) {
+    triggerConfetti(eventId, color);
+  }
+
+  ev.records.push(dateToRecord);
+  renderAll(); 
+  
   try {
-    await jsonp(APPS_SCRIPT_URL + '?action=checkin&eventId=' + encodeURIComponent(eventId) + '&date=' + today);
-    showToast('✓ 打卡成功');
+    await jsonp(APPS_SCRIPT_URL + '?action=checkin&eventId=' + encodeURIComponent(eventId) + '&date=' + dateToRecord);
+    showToast(`✓ ${isToday ? '打卡' : '补签'}成功`);
   } catch(e) {
-    ev.records = ev.records.filter(d => d !== today);
+    ev.records = ev.records.filter(d => d !== dateToRecord);
     renderAll();
     showToast('打卡失败，请重试');
+  }
+}
+
+function handleRetroCheckin(eventId, inputElem) {
+  const dateStr = inputElem.value;
+  if (!dateStr) return;
+  
+  inputElem.value = ''; 
+
+  const ev = events.find(e => e.id === eventId);
+  if (!ev) return;
+
+  if (ev.records.includes(dateStr)) {
+    showToast(`你 ${dateStr} 已经打过卡啦`);
+    return;
+  }
+
+  if (dateStr === todayStr()) {
+    doCheckin(eventId, dateStr);
+    return;
+  }
+
+  if (confirm(`确定要补签 ${dateStr} 的打卡吗？`)) {
+    doCheckin(eventId, dateStr);
   }
 }
 
@@ -416,18 +519,17 @@ async function saveNewEvent(ev) {
   } catch(e) { showToast('创建失败，请重试'); }
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
+// 渲染逻辑
 function renderAll() {
   const c = document.getElementById('cardsContainer');
   c.innerHTML = '';
   if (!events.length) {
-    c.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div>还没有打卡事件<br>点击右上角创建第一个吧</div>`;
+    c.innerHTML = `<div class="empty"><div class="empty-icon">📝</div>还没有打卡事件<br>点击右上角创建第一个吧</div>`;
     return;
   }
   events.forEach(ev => c.appendChild(buildCard(ev)));
   events.forEach(ev => {
     renderHeatmap(ev);
-    // 核心改进：如果是当前年，渲染完热力图后自动让滚动条右对齐，暴露出最新的日期
     if (!viewYear[ev.id] || viewYear[ev.id] === new Date().getFullYear()) {
       const outer = document.querySelector(`#card-${ev.id} .hm-outer`);
       if (outer) outer.scrollLeft = outer.scrollWidth;
@@ -444,6 +546,9 @@ function buildCard(ev) {
   const card = document.createElement('div');
   card.className = 'card';
   card.id = 'card-' + ev.id;
+  // 注入 CSS 变量，让打卡按钮读取专属主题色和带透明度的发光阴影
+  card.setAttribute('style', `--theme: ${color.on}; --theme-shadow: ${color.on}4D;`);
+  
   card.innerHTML = `
     <div class="card-top">
       <div class="card-left">
@@ -458,18 +563,25 @@ function buildCard(ev) {
             </button>
           </div>
           <div class="card-stats">
-            <span class="stat"><b>${stats.month}</b>本月</span>
-            <span class="stat"><b>${stats.year}</b>今年</span>
-            <span class="stat"><b>${stats.total}</b>总计</span>
+            <span class="stat"><b>${stats.month}</b> 本月</span>
+            <span class="stat"><b>${stats.year}</b> 今年</span>
+            <span class="stat"><b>${stats.total}</b> 总计</span>
           </div>
         </div>
       </div>
-      <button class="btn-checkin ${done ? 'done' : ''}" onclick="doCheckin('${ev.id}')" ${done ? 'disabled' : ''}>
-        ${done
-          ? `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="2,7 5,10 11,3"/></svg>今日已完成`
-          : `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><polyline points="4,6.5 6,8.5 9.5,4.5"/></svg>Nice`
-        }
-      </button>
+      
+      <div class="card-actions">
+        <div class="btn-retro" title="补签以前的日期">
+          补卡
+          <input type="date" max="${todayStr()}" onchange="handleRetroCheckin('${ev.id}', this)">
+        </div>
+        <button class="btn-checkin ${done ? 'done' : ''}" onclick="doCheckin('${ev.id}')" ${done ? 'disabled' : ''}>
+          ${done
+            ? `<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="2,8 5,11 12,3"/></svg>今日已完成`
+            : `<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><polyline points="4,6.5 6,8.5 9.5,4.5"/></svg>打卡`
+          }
+        </button>
+      </div>
     </div>
     <div id="hm-${ev.id}"></div>
   `;
@@ -532,8 +644,8 @@ function renderHeatmap(ev) {
       const checked = recordSet.has(ds);
       const isToday = ds === todayFull;
       let bg = future ? 'transparent' : checked ? color.on : color.off;
-      let extra = isToday ? `outline:1.5px solid ${color.on};outline-offset:-1px;` : '';
-      // 通过 data 属性将元数据保存到 DOM 结构中，供给新型 Tooltip 使用
+      let extra = isToday ? `outline:2px solid ${color.on};outline-offset:-1px;` : '';
+      
       return `<div class="hm-cell" style="background:${bg};${extra}" data-date="${ds}" data-checked="${checked}" data-future="${future}"></div>`;
     }).join('');
     return `<div class="hm-col">${cells}</div>`;
@@ -568,7 +680,7 @@ function renderHeatmap(ev) {
   `;
 }
 
-// ── Stats ─────────────────────────────────────────────────────────────────────
+// Stats & Utilities
 function calcStats(records) {
   const now = new Date();
   const ym = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
@@ -580,7 +692,6 @@ function calcStats(records) {
   };
 }
 
-// ── Modal ─────────────────────────────────────────────────────────────────────
 function openModal() {
   selectedEmoji = EMOJIS[0]; selectedColor = COLORS[0].key;
   document.getElementById('inputName').value = '';
@@ -588,7 +699,8 @@ function openModal() {
   document.getElementById('overlay').classList.add('open');
   setTimeout(() => document.getElementById('inputName').focus(), 200);
 }
-function closeModal() { document.getElementById('overlay').classList.remove('remove'); document.getElementById('overlay').classList.remove('open'); }
+
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
 
 function buildEmojiGrid() {
   const g = document.getElementById('emojiGrid'); g.innerHTML = '';
@@ -600,6 +712,7 @@ function buildEmojiGrid() {
     g.appendChild(b);
   });
 }
+
 function buildColorGrid() {
   const g = document.getElementById('colorGrid'); g.innerHTML = '';
   COLORS.forEach(c => {
@@ -610,22 +723,24 @@ function buildColorGrid() {
     g.appendChild(b);
   });
 }
+
 function submitNewEvent() {
   const name = document.getElementById('inputName').value.trim();
   if (!name) { document.getElementById('inputName').focus(); return; }
   saveNewEvent({ id: 'e' + Date.now(), name, emoji: selectedEmoji, colorKey: selectedColor });
 }
 
-// ── Utils ─────────────────────────────────────────────────────────────────────
 function setLoading(on) {
   document.getElementById('loadingBar').style.width = on ? '65%' : '100%';
   if (!on) setTimeout(() => document.getElementById('loadingBar').style.width = '0', 300);
 }
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
+
 document.getElementById('overlay').addEventListener('click', e => { if (e.target === document.getElementById('overlay')) closeModal(); });
 
 function changeHmYear(eventId, delta) {
@@ -641,7 +756,6 @@ function changeHmYear(eventId, delta) {
   const evFound = events.find(e => e.id === eventId);
   if (evFound) {
     renderHeatmap(evFound);
-    // 如果切回了当前年，确保滚动条靠右
     if (newYear === now.getFullYear()) {
       const outer = document.querySelector(`#card-${eventId} .hm-outer`);
       if (outer) outer.scrollLeft = outer.scrollWidth;
