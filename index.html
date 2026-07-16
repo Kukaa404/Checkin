@@ -573,8 +573,8 @@ function buildCard(ev) {
       <div class="card-actions">
         <div class="btn-retro" title="补签以前的日期">
           补卡
-          <input type="date" max="${todayStr()}" onchange="handleRetroCheckin('${ev.id}', this)">
-        </div>
+          <input type="date" max="${todayStr()}" onclick="if(this.showPicker) this.showPicker()" onchange="handleRetroCheckin('${ev.id}', this)">
+      </div>
         <button class="btn-checkin ${done ? 'done' : ''}" onclick="doCheckin('${ev.id}')" ${done ? 'disabled' : ''}>
           ${done
             ? `<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="2,8 5,11 12,3"/></svg>今日已完成`
